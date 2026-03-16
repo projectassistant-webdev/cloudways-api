@@ -1,0 +1,25 @@
+hosting:
+  cloudways:
+    account: primary
+    server:
+      id: 999999
+      label: "example-prod"
+      ssh_user: master_example
+      ssh_host: 1.2.3.4
+      provider: do
+      region: nyc3
+    environments:
+      production:
+        app_id: 1234567
+        domain: wp.example.com
+        webroot: public_html/current
+        branch: main
+      staging:
+        app_id: 7654321
+        domain: staging.wp.example.com
+        webroot: public_html/current
+        branch: staging
+    database:
+      local_container: myapp-mariadb
+      local_db_name: wordpress
+      url_replace_method: wp-cli

@@ -1,0 +1,13 @@
+services:
+  app:
+    build: .
+    volumes:
+      - .:/app
+      - ~/.cloudways:/root/.cloudways:ro
+      - ~/.ssh:/root/.ssh:ro
+    working_dir: /app
+    entrypoint: []
+    command: ["sleep", "infinity"]
+    environment:
+      - CLOUDWAYS_PROJECT_CONFIG
+      - CLOUDWAYS_ACCOUNTS_FILE

@@ -1,0 +1,8 @@
+accounts:
+  primary:
+    email: user@example.com
+    api_key: ${CLOUDWAYS_API_KEY_PRIMARY}
+
+  agency:
+    email: team@example.com
+    api_key: ${CLOUDWAYS_API_KEY_AGENCY}

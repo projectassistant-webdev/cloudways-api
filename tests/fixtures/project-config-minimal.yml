@@ -1,0 +1,9 @@
+hosting:
+  cloudways:
+    account: primary
+    server:
+      id: 999999
+    environments:
+      production:
+        app_id: 1234567
+        domain: wp.example.com

@@ -1,0 +1,156 @@
+# Environment Variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Dependencies
+node_modules/
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.venv/
+
+# IDE
+# .vscode/ settings are included for team-wide optimizations
+.vscode/*
+!.vscode/settings.json
+!.vscode/settings-*.json
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# nyc test coverage
+.nyc_output
+
+# Build outputs
+build/
+dist/
+.next/
+out/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Temporary files
+tmp/
+temp/
+
+# Docker
+.dockerignore
+
+# LocalDocs generated files (can be regenerated)
+docs/*/localdocs.config.json
+
+# Research files (keep structure but can exclude large scraped content)
+# research/*/page*/*.md
+
+# Memory files (keep - these are valuable)
+# memory/
+
+# Secrets and credentials
+*.pem
+*.key
+!localdocs.config.json
+
+# Testing
+.pytest_cache/
+test-results/
+coverage.xml
+.coverage
+
+# Python build artifacts
+*.egg-info/
+*.egg
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py# Entries below are synced to other projects via prism-rollout.sh
+# Run: ./scripts/rollout/sync-gitignore-manifest.sh to update sync-manifest.yml
+# Prism pipeline state (local runtime state, not version controlled)
+.prism/PIPELINES.json
+.prism/PIPELINES.json.*-backup
+.prism/QUEUE.json
+.prism/logs/
+.prism/*.lock
+.prism-rollout.lock
+.prism/reports/
+.prism/last-full-test-pass.json
+.prism/local-verification.json
+.prism/CURRENT_TASK.md
+.prism/screenshots/
+# Prism learnings and discovery (auto-generated)
+.prism/learnings/
+# Cross-project learnings aggregated from child projects (keep .gitkeep only)
+learnings/aggregated/*
+!learnings/aggregated/.gitkeep
+learnings/synthesis.json
+.prism/discovery/
+.prism/tasks/
+# Prism instruction analysis (auto-generated)
+.prism/codex_prompt.md
+.prism/instruction-analysis.json
+# Large media files (Fireflies recordings, screen captures, etc.)
+*.mp4
+*.webm
+*.mov
+*.avi
+*.mkv
+# Package manager lock files (uv, poetry)
+uv.lock
+# Supabase CLI temp files
+supabase/.temp/
+# Entries below are synced to other projects via prism-rollout.sh
+.prism/events/
+.prism/active-monitors.json
+.prism/remediation/
+.prism/background-tasks.json
+.prism/PROJECT.json
+.prism/current-segment.json
+.prism/test-results/*
+!.prism/test-results/.gitkeep
+learnings/export-queue/*
+!learnings/export-queue/.gitkeep
+learnings/transcripts/*
+!learnings/transcripts/.gitkeep
+learnings/proposed-improvements/*
+!learnings/proposed-improvements/.gitkeep
+# Cross-project data (auto-generated)
+.data/cross-project/*
+!.data/cross-project/.gitkeep
+.data/knowledge/*
+!.data/knowledge/.gitkeep
