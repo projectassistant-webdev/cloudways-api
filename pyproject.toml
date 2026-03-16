@@ -4,9 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cloudways-api"
-version = "0.1.0"
-description = "Docker-containerized CLI for Cloudways API operations"
-requires-python = ">=3.13"
+version = "1.0.0"
+description = "Comprehensive Python CLI for Cloudways API v2 operations"
+requires-python = ">=3.11"
+license = {text = "MIT"}
 dependencies = [
     "typer>=0.9.0",
     "httpx>=0.27.0",
@@ -31,9 +32,6 @@ markers = [
     "integration: marks tests requiring external services",
 ]
 testpaths = ["tests"]
-
-[tool.ruff]
-exclude = [".claude/hooks", "scripts/prism"]
 
 [tool.coverage.run]
 source = ["cloudways_api"]
