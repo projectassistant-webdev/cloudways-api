@@ -26,7 +26,7 @@ MOCK_CREDS_LIST_RESPONSE = {
         {
             "id": 100,
             "sys_user": "bitbucket",
-            "ip": "1.2.3.4",
+            "ip": "159.223.142.14",
         },
     ]
 }
@@ -129,7 +129,7 @@ class TestAddSshKey:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.add_ssh_key(
-                server_id=999999,
+                server_id=1089270,
                 app_creds_id=100,
                 key_name="my-key",
                 public_key=VALID_SSH_RSA_KEY,
@@ -154,7 +154,7 @@ class TestAddSshKey:
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
                 await client.add_ssh_key(
-                    server_id=999999,
+                    server_id=1089270,
                     app_creds_id=100,
                     key_name="test",
                     public_key=VALID_SSH_RSA_KEY,
@@ -179,7 +179,7 @@ class TestDeleteSshKey:
         PatchedClient = make_patched_client_class(transport)
 
         async with PatchedClient("test@example.com", "key") as client:
-            result = await client.delete_ssh_key(server_id=999999, ssh_key_id=5001)
+            result = await client.delete_ssh_key(server_id=1089270, ssh_key_id=5001)
 
         assert result == {}
 
@@ -199,7 +199,7 @@ class TestDeleteSshKey:
 
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
-                await client.delete_ssh_key(server_id=999999, ssh_key_id=99999)
+                await client.delete_ssh_key(server_id=1089270, ssh_key_id=99999)
 
     @pytest.mark.asyncio
     async def test_delete_ssh_key_empty_body(self) -> None:
@@ -216,7 +216,7 @@ class TestDeleteSshKey:
         PatchedClient = make_patched_client_class(transport)
 
         async with PatchedClient("test@example.com", "key") as client:
-            result = await client.delete_ssh_key(server_id=999999, ssh_key_id=5001)
+            result = await client.delete_ssh_key(server_id=1089270, ssh_key_id=5001)
 
         assert result == {}
 
@@ -235,7 +235,7 @@ class TestDeleteSshKey:
         PatchedClient = make_patched_client_class(transport)
 
         async with PatchedClient("test@example.com", "key") as client:
-            result = await client.delete_ssh_key(server_id=999999, ssh_key_id=5001)
+            result = await client.delete_ssh_key(server_id=1089270, ssh_key_id=5001)
 
         assert result == {}
 
@@ -491,7 +491,7 @@ class TestUpdateSshKey:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.update_ssh_key(
-                server_id=999999, ssh_key_id=5001, key_name="deploy-key"
+                server_id=1089270, ssh_key_id=5001, key_name="deploy-key"
             )
 
         assert result == {}
@@ -520,7 +520,7 @@ class TestUpdateSshKey:
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
                 await client.update_ssh_key(
-                    server_id=999999, ssh_key_id=99999, key_name="test"
+                    server_id=1089270, ssh_key_id=99999, key_name="test"
                 )
 
     @pytest.mark.asyncio
@@ -539,7 +539,7 @@ class TestUpdateSshKey:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.update_ssh_key(
-                server_id=999999, ssh_key_id=5001, key_name="deploy-key"
+                server_id=1089270, ssh_key_id=5001, key_name="deploy-key"
             )
 
         assert result == {}
@@ -560,7 +560,7 @@ class TestUpdateSshKey:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.update_ssh_key(
-                server_id=999999, ssh_key_id=5001, key_name="deploy-key"
+                server_id=1089270, ssh_key_id=5001, key_name="deploy-key"
             )
 
         assert result == {}

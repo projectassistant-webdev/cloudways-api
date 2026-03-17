@@ -24,7 +24,7 @@ def _make_servers_response() -> dict:
     return {
         "servers": [
             {
-                "id": "999999",
+                "id": "1089270",
                 "label": "my-server",
                 "status": "running",
                 "public_ip": "10.0.0.1",
@@ -196,7 +196,7 @@ class TestProvisionAppNonInteractive:
         result = _run_provision_app(
             monkeypatch,
             args=[
-                "--server-id", "999999",
+                "--server-id", "1089270",
                 "--app-label", "my-new-app",
             ],
         )
@@ -210,7 +210,7 @@ class TestProvisionAppNonInteractive:
         """Output table includes the app ID from the API response."""
         result = _run_provision_app(
             monkeypatch,
-            args=["--server-id", "999999", "--app-label", "test-app"],
+            args=["--server-id", "1089270", "--app-label", "test-app"],
         )
         assert result.exit_code == 0
         assert "5550001" in result.output
@@ -221,10 +221,10 @@ class TestProvisionAppNonInteractive:
         """Output table includes the target server ID."""
         result = _run_provision_app(
             monkeypatch,
-            args=["--server-id", "999999", "--app-label", "test-app"],
+            args=["--server-id", "1089270", "--app-label", "test-app"],
         )
         assert result.exit_code == 0
-        assert "999999" in result.output
+        assert "1089270" in result.output
 
     def test_provision_app_output_shows_label(
         self, monkeypatch: pytest.MonkeyPatch
@@ -232,7 +232,7 @@ class TestProvisionAppNonInteractive:
         """Output table includes the chosen app label."""
         result = _run_provision_app(
             monkeypatch,
-            args=["--server-id", "999999", "--app-label", "custom-label"],
+            args=["--server-id", "1089270", "--app-label", "custom-label"],
         )
         assert result.exit_code == 0
         assert "custom-label" in result.output
@@ -243,7 +243,7 @@ class TestProvisionAppNonInteractive:
         """Output table includes wordpress as the application type."""
         result = _run_provision_app(
             monkeypatch,
-            args=["--server-id", "999999", "--app-label", "test-app"],
+            args=["--server-id", "1089270", "--app-label", "test-app"],
         )
         assert result.exit_code == 0
         assert "wordpress" in result.output
@@ -255,7 +255,7 @@ class TestProvisionAppNonInteractive:
         result = _run_provision_app(
             monkeypatch,
             args=[
-                "--server-id", "999999",
+                "--server-id", "1089270",
                 "--app-label", "test-app",
                 "--project", "MyProject",
             ],
@@ -274,7 +274,7 @@ class TestProvisionAppPostCreation:
         result = _run_provision_app(
             monkeypatch,
             args=[
-                "--server-id", "999999",
+                "--server-id", "1089270",
                 "--app-label", "test-app",
                 "--php", "8.2",
             ],
@@ -291,7 +291,7 @@ class TestProvisionAppPostCreation:
         result = _run_provision_app(
             monkeypatch,
             args=[
-                "--server-id", "999999",
+                "--server-id", "1089270",
                 "--app-label", "test-app",
                 "--domain", "example.com",
             ],
@@ -308,7 +308,7 @@ class TestProvisionAppPostCreation:
         result = _run_provision_app(
             monkeypatch,
             args=[
-                "--server-id", "999999",
+                "--server-id", "1089270",
                 "--app-label", "test-app",
                 "--php", "8.3",
                 "--domain", "staging.example.com",
@@ -357,7 +357,7 @@ class TestProvisionAppMissingFlags:
         """Missing --app-label in non-interactive mode fails with clear message."""
         result = _run_provision_app(
             monkeypatch,
-            args=["--server-id", "999999"],
+            args=["--server-id", "1089270"],
         )
         assert result.exit_code != 0
         assert "--app-label" in result.output
@@ -387,7 +387,7 @@ class TestProvisionAppErrorHandling:
 
         result = _run_provision_app(
             monkeypatch,
-            args=["--server-id", "999999", "--app-label", "test-app"],
+            args=["--server-id", "1089270", "--app-label", "test-app"],
             transport_handler=auth_fail_handler,
         )
         assert result.exit_code == 1
@@ -416,7 +416,7 @@ class TestProvisionAppErrorHandling:
 
         result = _run_provision_app(
             monkeypatch,
-            args=["--server-id", "999999", "--app-label", "test-app"],
+            args=["--server-id", "1089270", "--app-label", "test-app"],
             transport_handler=create_fail_handler,
         )
         assert result.exit_code == 1
@@ -432,7 +432,7 @@ class TestProvisionAppErrorHandling:
 
         result = _run_provision_app(
             monkeypatch,
-            args=["--server-id", "999999", "--app-label", "test-app"],
+            args=["--server-id", "1089270", "--app-label", "test-app"],
             transport_handler=network_fail_handler,
         )
         assert result.exit_code == 1
@@ -458,7 +458,7 @@ class TestProvisionAppErrorHandling:
                 app,
                 [
                     "provision", "app",
-                    "--server-id", "999999",
+                    "--server-id", "1089270",
                     "--app-label", "t",
                 ],
             )
@@ -503,7 +503,7 @@ class TestProvisionAppOperationPolling:
             result = _run_provision_app(
                 monkeypatch,
                 args=[
-                    "--server-id", "999999",
+                    "--server-id", "1089270",
                     "--app-label", "test-app",
                 ],
                 transport_handler=polling_handler,
@@ -542,7 +542,7 @@ class TestProvisionAppOperationPolling:
 
         result = _run_provision_app(
             monkeypatch,
-            args=["--server-id", "999999", "--app-label", "test-app"],
+            args=["--server-id", "1089270", "--app-label", "test-app"],
             transport_handler=no_opid_handler,
         )
         assert result.exit_code == 0
@@ -585,7 +585,7 @@ class TestProvisionAppDefaults:
             result = _run_provision_app(
                 monkeypatch,
                 args=[
-                    "--server-id", "999999",
+                    "--server-id", "1089270",
                     "--app-label", "test-app",
                 ],
                 transport_handler=capture_handler,
@@ -626,7 +626,7 @@ class TestProvisionAppDefaults:
             result = _run_provision_app(
                 monkeypatch,
                 args=[
-                    "--server-id", "999999",
+                    "--server-id", "1089270",
                     "--app-label", "test-app",
                 ],
                 transport_handler=capture_handler,
@@ -667,7 +667,7 @@ class TestProvisionAppDefaults:
             result = _run_provision_app(
                 monkeypatch,
                 args=[
-                    "--server-id", "999999",
+                    "--server-id", "1089270",
                     "--app-label", "test-app",
                 ],
                 transport_handler=capture_handler,
@@ -710,7 +710,7 @@ class TestProvisionAppPostCreationWarnings:
             result = _run_provision_app(
                 monkeypatch,
                 args=[
-                    "--server-id", "999999",
+                    "--server-id", "1089270",
                     "--app-label", "test-app",
                     "--php", "9.9",
                 ],
@@ -752,7 +752,7 @@ class TestProvisionAppPostCreationWarnings:
             result = _run_provision_app(
                 monkeypatch,
                 args=[
-                    "--server-id", "999999",
+                    "--server-id", "1089270",
                     "--app-label", "test-app",
                     "--domain", "bad-domain",
                 ],
@@ -811,7 +811,7 @@ class TestProvisionAppTypeAndVersion:
             result = _run_provision_app(
                 monkeypatch,
                 args=[
-                    "--server-id", "999999",
+                    "--server-id", "1089270",
                     "--app-label", "test-app",
                     "--app", "laravel",
                 ],
@@ -855,7 +855,7 @@ class TestProvisionAppTypeAndVersion:
             result = _run_provision_app(
                 monkeypatch,
                 args=[
-                    "--server-id", "999999",
+                    "--server-id", "1089270",
                     "--app-label", "test-app",
                     "--app-version", "6.3",
                 ],
@@ -884,8 +884,8 @@ class TestProvisionAppInteractivePrompts:
                 result = _run_provision_app(
                     monkeypatch,
                     args=["--app-label", "test-app"],
-                    # Choose server 999999 from the list
-                    input_text="999999\n",
+                    # Choose server 1089270 from the list
+                    input_text="1089270\n",
                 )
 
         assert result.exit_code == 0
@@ -905,7 +905,7 @@ class TestProvisionAppInteractivePrompts:
             ):
                 result = _run_provision_app(
                     monkeypatch,
-                    args=["--server-id", "999999"],
+                    args=["--server-id", "1089270"],
                     input_text="my-prompted-app\n",
                 )
 
@@ -982,7 +982,7 @@ class TestProvisionAppTimeoutHint:
                 result = _run_provision_app(
                     monkeypatch,
                     args=[
-                        "--server-id", "999999",
+                        "--server-id", "1089270",
                         "--app-label", "test-app",
                         "--timeout", "300",
                     ],
@@ -1004,7 +1004,7 @@ class TestProvisionAppTemplateConfigureBlock:
         tpl.write_text(
             "provision:\n"
             "  type: app\n"
-            "  server_id: 999999\n"
+            "  server_id: 1089270\n"
             "  app_label: tpl-app\n"
             "  configure:\n"
             "    php_version: '8.3'\n"
@@ -1029,7 +1029,7 @@ class TestProvisionAppTemplateConfigureBlock:
         tpl.write_text(
             "provision:\n"
             "  type: app\n"
-            "  server_id: 999999\n"
+            "  server_id: 1089270\n"
             "  app_label: tpl-app\n"
             "  configure:\n"
             "    domain: tpl.example.com\n"
@@ -1054,7 +1054,7 @@ class TestProvisionAppTemplateConfigureBlock:
         tpl.write_text(
             "provision:\n"
             "  type: app\n"
-            "  server_id: 999999\n"
+            "  server_id: 1089270\n"
             "  app_label: tpl-app\n"
             "  application: phplaravel\n"
         )

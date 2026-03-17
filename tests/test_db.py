@@ -131,8 +131,8 @@ class TestWPConfigParser:
 
     def test_parse_db_name_single_quotes(self) -> None:
         """Extract DB name from define('DB_NAME', 'xxx') pattern."""
-        output = "define('DB_NAME', 'wp_example');"
-        assert parse_db_name_from_wp_config(output) == "wp_example"
+        output = "define('DB_NAME', 'wp_projectassistant');"
+        assert parse_db_name_from_wp_config(output) == "wp_projectassistant"
 
     def test_parse_db_name_double_quotes(self) -> None:
         """Extract DB name from define("DB_NAME", "xxx") pattern."""
@@ -176,7 +176,7 @@ class TestValidatePhase2Config:
         return {
             "account": "primary",
             "server": {
-                "id": 999999,
+                "id": 1089270,
                 "ssh_user": "master_user",
                 "ssh_host": "1.2.3.4",
             },
@@ -184,7 +184,7 @@ class TestValidatePhase2Config:
                 "production": {"app_id": 123, "domain": "example.com"},
             },
             "database": {
-                "local_container": "myapp-mariadb",
+                "local_container": "pa-mariadb",
                 "local_db_name": "wordpress",
                 "url_replace_method": "wp-cli",
             },
@@ -330,8 +330,8 @@ class TestBuildRemoteImportCommand:
 
     def test_remote_import_command_includes_db_name(self) -> None:
         """Remote import command includes the database name."""
-        cmd = build_remote_import_command("wp_example")
-        assert "wp_example" in cmd
+        cmd = build_remote_import_command("wp_projectassistant")
+        assert "wp_projectassistant" in cmd
 
     def test_remote_import_command_no_docker_prefix(self) -> None:
         """Remote import command does not have docker exec prefix."""

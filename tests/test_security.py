@@ -123,7 +123,7 @@ class TestGetWhitelistedIps:
         PatchedClient = make_patched_client_class(transport)
 
         async with PatchedClient("test@example.com", "key") as client:
-            result = await client.get_whitelisted_ips(server_id=999999)
+            result = await client.get_whitelisted_ips(server_id=1089270)
 
         assert result == ["1.1.1.1"]
         request = [
@@ -133,7 +133,7 @@ class TestGetWhitelistedIps:
         ][0]
         assert request.method == "GET"
         assert request.url.path.endswith("/security/whitelisted")
-        assert "server_id=999999" in str(request.url)
+        assert "server_id=1089270" in str(request.url)
 
     @pytest.mark.asyncio
     async def test_get_whitelisted_ips_empty(self) -> None:
@@ -150,7 +150,7 @@ class TestGetWhitelistedIps:
         PatchedClient = make_patched_client_class(transport)
 
         async with PatchedClient("test@example.com", "key") as client:
-            result = await client.get_whitelisted_ips(server_id=999999)
+            result = await client.get_whitelisted_ips(server_id=1089270)
 
         assert result == []
 
@@ -170,7 +170,7 @@ class TestGetWhitelistedIps:
 
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
-                await client.get_whitelisted_ips(server_id=999999)
+                await client.get_whitelisted_ips(server_id=1089270)
 
 
 class TestGetWhitelistedIpsMysql:
@@ -196,7 +196,7 @@ class TestGetWhitelistedIpsMysql:
         PatchedClient = make_patched_client_class(transport)
 
         async with PatchedClient("test@example.com", "key") as client:
-            result = await client.get_whitelisted_ips_mysql(server_id=999999)
+            result = await client.get_whitelisted_ips_mysql(server_id=1089270)
 
         assert result == ["1.1.1.1"]
         request = [
@@ -206,7 +206,7 @@ class TestGetWhitelistedIpsMysql:
         ][0]
         assert request.method == "GET"
         assert "/security/whitelistedIpsMysql" in str(request.url)
-        assert "server_id=999999" in str(request.url)
+        assert "server_id=1089270" in str(request.url)
 
     @pytest.mark.asyncio
     async def test_get_whitelisted_ips_mysql_api_error(self) -> None:
@@ -224,7 +224,7 @@ class TestGetWhitelistedIpsMysql:
 
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
-                await client.get_whitelisted_ips_mysql(server_id=999999)
+                await client.get_whitelisted_ips_mysql(server_id=1089270)
 
 
 class TestUpdateWhitelistedIps:
@@ -248,7 +248,7 @@ class TestUpdateWhitelistedIps:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.update_whitelisted_ips(
-                server_id=999999, ip_list=["1.1.1.1"]
+                server_id=1089270, ip_list=["1.1.1.1"]
             )
 
         assert result == {}
@@ -260,7 +260,7 @@ class TestUpdateWhitelistedIps:
         assert request.method == "POST"
         assert "/security/whitelisted" in str(request.url)
         body = request.content.decode()
-        assert "server_id=999999" in body
+        assert "server_id=1089270" in body
         assert "tab=sftp" in body
         assert "type=sftp" in body
         assert "ipPolicy=allow_all" in body
@@ -284,7 +284,7 @@ class TestUpdateWhitelistedIps:
 
         async with PatchedClient("test@example.com", "key") as client:
             await client.update_whitelisted_ips(
-                server_id=999999, ip_list=["1.1.1.1", "2.2.2.2"]
+                server_id=1089270, ip_list=["1.1.1.1", "2.2.2.2"]
             )
 
         request = [
@@ -313,7 +313,7 @@ class TestUpdateWhitelistedIps:
         PatchedClient = make_patched_client_class(transport)
 
         async with PatchedClient("test@example.com", "key") as client:
-            result = await client.update_whitelisted_ips(server_id=999999, ip_list=[])
+            result = await client.update_whitelisted_ips(server_id=1089270, ip_list=[])
 
         assert result == {}
         request = [
@@ -343,7 +343,7 @@ class TestUpdateWhitelistedIps:
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
                 await client.update_whitelisted_ips(
-                    server_id=999999, ip_list=["1.1.1.1"]
+                    server_id=1089270, ip_list=["1.1.1.1"]
                 )
 
 
@@ -365,7 +365,7 @@ class TestCheckIpBlacklisted:
         PatchedClient = make_patched_client_class(transport)
 
         async with PatchedClient("test@example.com", "key") as client:
-            result = await client.check_ip_blacklisted(server_id=999999, ip="1.1.1.1")
+            result = await client.check_ip_blacklisted(server_id=1089270, ip="1.1.1.1")
 
         assert result is True
 
@@ -384,7 +384,7 @@ class TestCheckIpBlacklisted:
         PatchedClient = make_patched_client_class(transport)
 
         async with PatchedClient("test@example.com", "key") as client:
-            result = await client.check_ip_blacklisted(server_id=999999, ip="1.1.1.1")
+            result = await client.check_ip_blacklisted(server_id=1089270, ip="1.1.1.1")
 
         assert result is False
 
@@ -405,12 +405,12 @@ class TestCheckIpBlacklisted:
         PatchedClient = make_patched_client_class(transport)
 
         async with PatchedClient("test@example.com", "key") as client:
-            await client.check_ip_blacklisted(server_id=999999, ip="1.1.1.1")
+            await client.check_ip_blacklisted(server_id=1089270, ip="1.1.1.1")
 
         request = [r for r in captured if "/security/isBlacklisted" in str(r.url)][0]
         assert request.method == "GET"
         assert "/security/isBlacklisted" in str(request.url)
-        assert "server_id=999999" in str(request.url)
+        assert "server_id=1089270" in str(request.url)
         assert "ip=1.1.1.1" in str(request.url)
 
     @pytest.mark.asyncio
@@ -429,7 +429,7 @@ class TestCheckIpBlacklisted:
 
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
-                await client.check_ip_blacklisted(server_id=999999, ip="1.1.1.1")
+                await client.check_ip_blacklisted(server_id=1089270, ip="1.1.1.1")
 
 
 class TestWhitelistSiab:
@@ -452,7 +452,7 @@ class TestWhitelistSiab:
         PatchedClient = make_patched_client_class(transport)
 
         async with PatchedClient("test@example.com", "key") as client:
-            result = await client.whitelist_siab(server_id=999999, ip="1.1.1.1")
+            result = await client.whitelist_siab(server_id=1089270, ip="1.1.1.1")
 
         assert result == {}
         request = [
@@ -460,7 +460,7 @@ class TestWhitelistSiab:
         ][0]
         assert request.method == "POST"
         assert "/security/siab" in str(request.url)
-        assert request.content.decode() == "server_id=999999&ip=1.1.1.1"
+        assert request.content.decode() == "server_id=1089270&ip=1.1.1.1"
 
     @pytest.mark.asyncio
     async def test_whitelist_siab_api_error(self) -> None:
@@ -478,7 +478,7 @@ class TestWhitelistSiab:
 
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
-                await client.whitelist_siab(server_id=999999, ip="1.1.1.1")
+                await client.whitelist_siab(server_id=1089270, ip="1.1.1.1")
 
 
 class TestWhitelistAdminer:
@@ -501,7 +501,7 @@ class TestWhitelistAdminer:
         PatchedClient = make_patched_client_class(transport)
 
         async with PatchedClient("test@example.com", "key") as client:
-            result = await client.whitelist_adminer(server_id=999999, ip="1.1.1.1")
+            result = await client.whitelist_adminer(server_id=1089270, ip="1.1.1.1")
 
         assert result == {}
         request = [
@@ -511,7 +511,7 @@ class TestWhitelistAdminer:
         ][0]
         assert request.method == "POST"
         assert "/security/adminer" in str(request.url)
-        assert request.content.decode() == "server_id=999999&ip=1.1.1.1"
+        assert request.content.decode() == "server_id=1089270&ip=1.1.1.1"
 
     @pytest.mark.asyncio
     async def test_whitelist_adminer_api_error(self) -> None:
@@ -529,7 +529,7 @@ class TestWhitelistAdminer:
 
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
-                await client.whitelist_adminer(server_id=999999, ip="1.1.1.1")
+                await client.whitelist_adminer(server_id=1089270, ip="1.1.1.1")
 
 
 # ===================================================================

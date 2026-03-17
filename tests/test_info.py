@@ -18,32 +18,32 @@ def _make_servers_response() -> dict:
         "status": True,
         "servers": [
             {
-                "id": "999999",
-                "label": "example-prod",
+                "id": "1089270",
+                "label": "projectassistant-prod",
                 "status": "running",
                 "cloud": "do",
                 "region": "nyc3",
-                "public_ip": "1.2.3.4",
-                "master_user": "master_example",
+                "public_ip": "159.223.142.14",
+                "master_user": "master_pbztrcznuv",
                 "apps": [
                     {
-                        "id": "1234567",
+                        "id": "3937401",
                         "label": "Production WP",
                         "application": "wordpress",
                         "app_version": "6.4",
-                        "cname": "wp.example.com",
-                        "server_id": "999999",
+                        "cname": "wp.projectassistant.org",
+                        "server_id": "1089270",
                         "sys_user": "appuser",
                         "mysql_db_name": "dbname",
                         "webroot": "public_html",
                     },
                     {
-                        "id": "7654321",
+                        "id": "5021818",
                         "label": "Staging WP",
                         "application": "wordpress",
                         "app_version": "6.4",
-                        "cname": "staging.wp.example.com",
-                        "server_id": "999999",
+                        "cname": "staging.wp.projectassistant.org",
+                        "server_id": "1089270",
                         "sys_user": "staginguser",
                         "mysql_db_name": "staging_db",
                         "webroot": "public_html",
@@ -125,7 +125,7 @@ class TestInfoCommand:
         assert "production" in result.output.lower()
         # Staging should not appear when filtering to production
         # (check for absence of staging-specific data)
-        assert "7654321" not in result.output
+        assert "5021818" not in result.output
 
     def test_info_invalid_environment_shows_error(
         self, monkeypatch: pytest.MonkeyPatch
@@ -204,7 +204,7 @@ class TestInfoCommand:
             monkeypatch, transport_handler=no_match_handler
         )
         assert result.exit_code == 1
-        assert "999999" in result.output or "not found" in result.output.lower()
+        assert "1089270" in result.output or "not found" in result.output.lower()
 
     def test_info_network_error_shows_error(
         self, monkeypatch: pytest.MonkeyPatch
@@ -226,8 +226,8 @@ class TestInfoCommand:
         """Verify server IP, label, status in output."""
         result = _run_info_with_mocks(monkeypatch)
         assert result.exit_code == 0
-        assert "1.2.3.4" in result.output
-        assert "999999" in result.output
+        assert "159.223.142.14" in result.output
+        assert "1089270" in result.output
 
     def test_info_output_contains_app_details(
         self, monkeypatch: pytest.MonkeyPatch
@@ -235,8 +235,8 @@ class TestInfoCommand:
         """Verify domain and app ID in output."""
         result = _run_info_with_mocks(monkeypatch)
         assert result.exit_code == 0
-        assert "wp.example.com" in result.output
-        assert "1234567" in result.output
+        assert "wp.projectassistant.org" in result.output
+        assert "3937401" in result.output
 
     def test_info_output_contains_php_mysql_versions(
         self, monkeypatch: pytest.MonkeyPatch
@@ -264,13 +264,13 @@ class TestInfoCommand:
                         "status": True,
                         "servers": [
                             {
-                                "id": "999999",
-                                "label": "example-prod",
+                                "id": "1089270",
+                                "label": "projectassistant-prod",
                                 "status": "running",
                                 "cloud": "do",
                                 "region": "nyc3",
-                                "public_ip": "1.2.3.4",
-                                "master_user": "master_example",
+                                "public_ip": "159.223.142.14",
+                                "master_user": "master_pbztrcznuv",
                                 "apps": [],  # No apps
                             }
                         ],
@@ -282,7 +282,7 @@ class TestInfoCommand:
             monkeypatch, transport_handler=missing_app_handler
         )
         assert result.exit_code == 1
-        assert "not found" in result.output.lower() or "1234567" in result.output
+        assert "not found" in result.output.lower() or "3937401" in result.output
 
 
 class TestInfoProviderNames:
@@ -363,10 +363,10 @@ class TestInfoIdMatching:
         self, monkeypatch: pytest.MonkeyPatch
     ) -> None:
         """Server ID matching works between string API and int config values."""
-        # Default fixtures: config has int 999999, API returns string "999999"
+        # Default fixtures: config has int 1089270, API returns string "1089270"
         result = _run_info_with_mocks(monkeypatch)
         assert result.exit_code == 0
-        assert "999999" in result.output
+        assert "1089270" in result.output
 
     def test_info_matches_app_with_int_coercion(
         self, monkeypatch: pytest.MonkeyPatch
@@ -374,7 +374,7 @@ class TestInfoIdMatching:
         """App ID matching works between string API and int config values."""
         result = _run_info_with_mocks(monkeypatch)
         assert result.exit_code == 0
-        assert "1234567" in result.output
+        assert "3937401" in result.output
 
 
 class TestInfoUnknownProviderAndStatus:
@@ -460,7 +460,7 @@ class TestInfoMalformedData:
         )
         # Should succeed - the malformed app is skipped, valid ones still match
         assert result.exit_code == 0
-        assert "1234567" in result.output
+        assert "3937401" in result.output
 
     def test_info_invalid_app_id_in_config_shows_error(
         self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
@@ -472,7 +472,7 @@ class TestInfoMalformedData:
             "  cloudways:\n"
             "    account: primary\n"
             "    server:\n"
-            "      id: 999999\n"
+            "      id: 1089270\n"
             "    environments:\n"
             "      production:\n"
             "        app_id: not-a-number\n"
@@ -524,32 +524,32 @@ class TestInfoMalformedData:
                                 "apps": [],
                             },
                             {
-                                "id": "999999",
-                                "label": "example-prod",
+                                "id": "1089270",
+                                "label": "projectassistant-prod",
                                 "status": "running",
                                 "cloud": "do",
                                 "region": "nyc3",
-                                "public_ip": "1.2.3.4",
-                                "master_user": "master_example",
+                                "public_ip": "159.223.142.14",
+                                "master_user": "master_pbztrcznuv",
                                 "apps": [
                                     {
-                                        "id": "1234567",
+                                        "id": "3937401",
                                         "label": "Production WP",
                                         "application": "wordpress",
                                         "app_version": "6.4",
-                                        "cname": "wp.example.com",
-                                        "server_id": "999999",
+                                        "cname": "wp.projectassistant.org",
+                                        "server_id": "1089270",
                                         "sys_user": "appuser",
                                         "mysql_db_name": "dbname",
                                         "webroot": "public_html",
                                     },
                                     {
-                                        "id": "7654321",
+                                        "id": "5021818",
                                         "label": "Staging WP",
                                         "application": "wordpress",
                                         "app_version": "6.4",
-                                        "cname": "staging.wp.example.com",
-                                        "server_id": "999999",
+                                        "cname": "staging.wp.projectassistant.org",
+                                        "server_id": "1089270",
                                         "sys_user": "staginguser",
                                         "mysql_db_name": "staging_db",
                                         "webroot": "public_html",
@@ -566,4 +566,4 @@ class TestInfoMalformedData:
         )
         # Should succeed - the malformed server is skipped, valid one matched
         assert result.exit_code == 0
-        assert "999999" in result.output
+        assert "1089270" in result.output

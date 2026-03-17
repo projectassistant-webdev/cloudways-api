@@ -156,7 +156,7 @@ class TestTriggerBackup:
         PatchedClient = make_patched_client_class(transport)
 
         async with PatchedClient("test@example.com", "key") as client:
-            result = await client.trigger_backup(server_id=999999)
+            result = await client.trigger_backup(server_id=1089270)
 
         assert result["operation_id"] == 99002
         request = [
@@ -166,7 +166,7 @@ class TestTriggerBackup:
         ][0]
         assert request.method == "POST"
         assert "/server/manage/backup" in str(request.url)
-        assert request.content.decode() == "server_id=999999"
+        assert request.content.decode() == "server_id=1089270"
 
     @pytest.mark.asyncio
     async def test_trigger_backup_api_error(self) -> None:
@@ -184,7 +184,7 @@ class TestTriggerBackup:
 
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
-                await client.trigger_backup(server_id=999999)
+                await client.trigger_backup(server_id=1089270)
 
 
 class TestUpdateBackupSettings:
@@ -211,7 +211,7 @@ class TestUpdateBackupSettings:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.update_backup_settings(
-                server_id=999999,
+                server_id=1089270,
                 backup_frequency="24",
                 backup_retention=7,
                 local_backups=True,
@@ -226,7 +226,7 @@ class TestUpdateBackupSettings:
             and "/server/manage/backupSettings" in str(r.url)
         ][0]
         body = request.content.decode()
-        assert "server_id=999999" in body
+        assert "server_id=1089270" in body
         assert "backup_frequency=24" in body
         assert "backup_retention=7" in body
         assert "backup_time=00%3A10" in body
@@ -253,7 +253,7 @@ class TestUpdateBackupSettings:
 
         async with PatchedClient("test@example.com", "key") as client:
             await client.update_backup_settings(
-                server_id=999999, local_backups=False
+                server_id=1089270, local_backups=False
             )
 
         request = [
@@ -263,7 +263,7 @@ class TestUpdateBackupSettings:
             and "/server/manage/backupSettings" in str(r.url)
         ][0]
         body = request.content.decode()
-        assert "server_id=999999" in body
+        assert "server_id=1089270" in body
         assert "local_backups=false" in body
         assert "backup_frequency" not in body
         assert "backup_retention" not in body
@@ -286,7 +286,7 @@ class TestUpdateBackupSettings:
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
                 await client.update_backup_settings(
-                    server_id=999999, local_backups=True
+                    server_id=1089270, local_backups=True
                 )
 
 
@@ -322,7 +322,7 @@ class TestGetDiskSettings:
         PatchedClient = make_patched_client_class(transport)
 
         async with PatchedClient("test@example.com", "key") as client:
-            result = await client.get_disk_settings(server_id=999999)
+            result = await client.get_disk_settings(server_id=1089270)
 
         assert result["settings"]["automate_cleanup"] == "disabled"
         assert result["settings"]["remove_app_tmp"] == "no"
@@ -332,7 +332,7 @@ class TestGetDiskSettings:
             if r.method == "GET" and "/server/disk" in str(r.url)
         ][0]
         assert request.method == "GET"
-        assert "server_id=999999" in str(request.url)
+        assert "server_id=1089270" in str(request.url)
 
     @pytest.mark.asyncio
     async def test_get_disk_settings_api_error(self) -> None:
@@ -350,7 +350,7 @@ class TestGetDiskSettings:
 
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
-                await client.get_disk_settings(server_id=999999)
+                await client.get_disk_settings(server_id=1089270)
 
 
 class TestUpdateDiskSettings:
@@ -365,7 +365,7 @@ class TestUpdateDiskSettings:
             captured.append(request)
             if "/oauth/access_token" in str(request.url):
                 return httpx.Response(200, json=make_auth_response())
-            if "/server/disk/999999" in str(request.url) and request.method == "PUT":
+            if "/server/disk/1089270" in str(request.url) and request.method == "PUT":
                 return httpx.Response(200, content=b"")
             return httpx.Response(404)
 
@@ -374,7 +374,7 @@ class TestUpdateDiskSettings:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.update_disk_settings(
-                server_id=999999,
+                server_id=1089270,
                 automate_cleanup="enable",
                 remove_app_tmp="yes",
                 remove_app_private_html="no",
@@ -385,7 +385,7 @@ class TestUpdateDiskSettings:
 
         assert result == {}
         request = [r for r in captured if r.method == "PUT"][0]
-        assert "/server/disk/999999" in str(request.url)
+        assert "/server/disk/1089270" in str(request.url)
         body = request.content.decode()
         assert "automate_cleanup=enable" in body
         assert "remove_app_tmp=yes" in body
@@ -411,7 +411,7 @@ class TestUpdateDiskSettings:
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
                 await client.update_disk_settings(
-                    server_id=999999,
+                    server_id=1089270,
                     automate_cleanup="enable",
                     remove_app_tmp="yes",
                     remove_app_private_html="no",
@@ -445,7 +445,7 @@ class TestTriggerDiskCleanup:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.trigger_disk_cleanup(
-                server_id=999999,
+                server_id=1089270,
                 remove_app_tmp="yes",
                 remove_app_private_html="no",
                 rotate_system_log="yes",
@@ -460,7 +460,7 @@ class TestTriggerDiskCleanup:
             if r.method == "POST" and "/server/disk/cleanup" in str(r.url)
         ][0]
         body = request.content.decode()
-        assert "server_id=999999" in body
+        assert "server_id=1089270" in body
         assert "remove_app_tmp=yes" in body
         assert "remove_app_private_html=no" in body
         assert "rotate_system_log=yes" in body
@@ -484,7 +484,7 @@ class TestTriggerDiskCleanup:
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
                 await client.trigger_disk_cleanup(
-                    server_id=999999,
+                    server_id=1089270,
                     remove_app_tmp="yes",
                     remove_app_private_html="no",
                     rotate_system_log="yes",
@@ -577,7 +577,7 @@ class TestBackupSettingsGetCli:
             servers_response={
                 "servers": [
                     {
-                        "id": "999999",
+                        "id": "1089270",
                         "backup_frequency": "24",
                         "local_backups": "yes",
                         "snapshot_frequency": "0",
@@ -612,7 +612,7 @@ class TestBackupSettingsGetCli:
             )
 
         assert result.exit_code == 1
-        assert "Error: Server 999999 not found in account." in result.output
+        assert "Error: Server 1089270 not found in account." in result.output
 
 
 class TestBackupSettingsSetCli:
@@ -653,7 +653,7 @@ class TestBackupSettingsSetCli:
         assert "backup_retention=7" in body
         assert "backup_time=00%3A10" in body
         assert "local_backups=true" in body
-        assert "server_id=999999" in body
+        assert "server_id=1089270" in body
 
     def test_backup_settings_set_no_local_backups(self, set_env) -> None:
         """--no-local-backups sends local_backups=false."""
@@ -750,7 +750,7 @@ class TestDiskSettingsSetCli:
         assert result.exit_code == 0, result.output
         assert "Disk settings updated." in result.output
         put_req = next(r for r in captured if r.method == "PUT")
-        assert "/server/disk/999999" in str(put_req.url)
+        assert "/server/disk/1089270" in str(put_req.url)
         body = put_req.content.decode()
         assert "automate_cleanup=enable" in body
         assert "remove_app_tmp=yes" in body
@@ -828,7 +828,7 @@ class TestDiskCleanupCli:
             if r.method == "POST" and "/server/disk/cleanup" in str(r.url)
         )
         body = post_req.content.decode()
-        assert "server_id=999999" in body
+        assert "server_id=1089270" in body
         assert "remove_app_tmp=yes" in body
         assert "remove_app_private_html=no" in body
         assert "rotate_system_log=yes" in body

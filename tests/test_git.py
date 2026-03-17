@@ -150,8 +150,8 @@ class TestGitCloneClient:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.git_clone(
-                server_id=999999,
-                app_id=1234567,
+                server_id=1089270,
+                app_id=3937401,
                 git_url="https://bitbucket.org/org/repo.git",
                 branch_name="main",
             )
@@ -163,8 +163,8 @@ class TestGitCloneClient:
             if r.method == "POST" and "/git/clone" in str(r.url)
         ][0]
         body = request.content.decode()
-        assert "server_id=999999" in body
-        assert "app_id=1234567" in body
+        assert "server_id=1089270" in body
+        assert "app_id=3937401" in body
         assert "git_url=https%3A%2F%2Fbitbucket.org%2Forg%2Frepo.git" in body
         assert "branch_name=main" in body
 
@@ -178,8 +178,8 @@ class TestGitCloneClient:
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
                 await client.git_clone(
-                    server_id=999999,
-                    app_id=1234567,
+                    server_id=1089270,
+                    app_id=3937401,
                     git_url="https://bitbucket.org/org/repo.git",
                     branch_name="main",
                 )
@@ -197,8 +197,8 @@ class TestGitPullClient:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.git_pull(
-                server_id=999999,
-                app_id=1234567,
+                server_id=1089270,
+                app_id=3937401,
                 branch_name="main",
             )
 
@@ -209,8 +209,8 @@ class TestGitPullClient:
             if r.method == "POST" and "/git/pull" in str(r.url)
         ][0]
         body = request.content.decode()
-        assert "server_id=999999" in body
-        assert "app_id=1234567" in body
+        assert "server_id=1089270" in body
+        assert "app_id=3937401" in body
         assert "branch_name=main" in body
 
     @pytest.mark.asyncio
@@ -223,8 +223,8 @@ class TestGitPullClient:
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
                 await client.git_pull(
-                    server_id=999999,
-                    app_id=1234567,
+                    server_id=1089270,
+                    app_id=3937401,
                     branch_name="main",
                 )
 
@@ -241,8 +241,8 @@ class TestGitBranchNamesClient:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.git_branch_names(
-                server_id=999999,
-                app_id=1234567,
+                server_id=1089270,
+                app_id=3937401,
                 git_url="https://bitbucket.org/org/repo.git",
             )
 
@@ -253,8 +253,8 @@ class TestGitBranchNamesClient:
             if r.method == "GET" and "/git/branchNames" in str(r.url)
         ][0]
         url_str = str(request.url)
-        assert "server_id=999999" in url_str
-        assert "app_id=1234567" in url_str
+        assert "server_id=1089270" in url_str
+        assert "app_id=3937401" in url_str
         assert "git_url=https%3A%2F%2Fbitbucket.org%2Forg%2Frepo.git" in url_str
 
     @pytest.mark.asyncio
@@ -267,8 +267,8 @@ class TestGitBranchNamesClient:
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
                 await client.git_branch_names(
-                    server_id=999999,
-                    app_id=1234567,
+                    server_id=1089270,
+                    app_id=3937401,
                     git_url="https://bitbucket.org/org/repo.git",
                 )
 
@@ -285,8 +285,8 @@ class TestGitHistoryClient:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.git_history(
-                server_id=999999,
-                app_id=1234567,
+                server_id=1089270,
+                app_id=3937401,
             )
 
         assert result == MOCK_HISTORY_RESPONSE
@@ -296,8 +296,8 @@ class TestGitHistoryClient:
             if r.method == "GET" and "/git/history" in str(r.url)
         ][0]
         url_str = str(request.url)
-        assert "server_id=999999" in url_str
-        assert "app_id=1234567" in url_str
+        assert "server_id=1089270" in url_str
+        assert "app_id=3937401" in url_str
 
     @pytest.mark.asyncio
     async def test_git_history_api_error(self) -> None:
@@ -309,8 +309,8 @@ class TestGitHistoryClient:
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
                 await client.git_history(
-                    server_id=999999,
-                    app_id=1234567,
+                    server_id=1089270,
+                    app_id=3937401,
                 )
 
 

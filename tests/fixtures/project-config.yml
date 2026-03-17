@@ -2,24 +2,24 @@ hosting:
   cloudways:
     account: primary
     server:
-      id: 999999
-      label: "example-prod"
-      ssh_user: master_example
-      ssh_host: 1.2.3.4
+      id: 1089270
+      label: "projectassistant-prod"
+      ssh_user: master_pbztrcznuv
+      ssh_host: 159.223.142.14
       provider: do
       region: nyc3
     environments:
       production:
-        app_id: 1234567
-        domain: wp.example.com
+        app_id: 3937401
+        domain: wp.projectassistant.org
         webroot: public_html/current
         branch: main
       staging:
-        app_id: 7654321
-        domain: staging.wp.example.com
+        app_id: 5021818
+        domain: staging.wp.projectassistant.org
         webroot: public_html/current
         branch: staging
     database:
-      local_container: myapp-mariadb
+      local_container: pa-mariadb
       local_db_name: wordpress
       url_replace_method: wp-cli

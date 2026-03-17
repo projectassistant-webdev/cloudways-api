@@ -26,13 +26,13 @@ hosting:
   cloudways:
     account: primary
     server:
-      id: 999999
+      id: 1089270
       label: "test-server"
-      ssh_user: master_example
-      ssh_host: 1.2.3.4
+      ssh_user: master_pbztrcznuv
+      ssh_host: 159.223.142.14
     environments:
       production:
-        app_id: 1234567
+        app_id: 3937401
         domain: wp.example.com
         ssh_user: unsvkhbwwr
 """
@@ -42,11 +42,11 @@ hosting:
   cloudways:
     account: primary
     server:
-      id: 999999
+      id: 1089270
       label: "test-server"
     environments:
       production:
-        app_id: 1234567
+        app_id: 3937401
         domain: wp.example.com
         ssh_user: unsvkhbwwr
 """
@@ -56,13 +56,13 @@ hosting:
   cloudways:
     account: primary
     server:
-      id: 999999
+      id: 1089270
       label: "test-server"
-      ssh_user: master_example
-      ssh_host: 1.2.3.4
+      ssh_user: master_pbztrcznuv
+      ssh_host: 159.223.142.14
     environments:
       production:
-        app_id: 1234567
+        app_id: 3937401
         domain: wp.example.com
 """
 
@@ -201,7 +201,7 @@ class TestServicesDeploySuccess:
         assert result.exit_code == 0
         text = captured_content["text"]
         # Should have real credentials, not literal tokens
-        assert "user@example.com" in text
+        assert "anthonys@projectassistant.org" in text
         assert "plain_text_api_key_12345" in text
         # Literal tokens should be gone
         assert "CLOUDWAYS_EMAIL" not in text.split("=")[1] if "=" in text else True

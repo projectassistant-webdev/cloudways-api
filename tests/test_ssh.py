@@ -42,7 +42,7 @@ class TestRunSSHCommand:
             from cloudways_api.ssh import run_ssh_command
 
             stdout, stderr, code = await run_ssh_command(
-                "1.2.3.4", "master_user", "echo hello"
+                "159.223.142.14", "master_user", "echo hello"
             )
             assert stdout == "hello world\n"
             assert stderr == ""

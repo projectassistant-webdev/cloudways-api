@@ -54,7 +54,7 @@ def _make_cloudflare_handler(
                     200,
                     json=logpush_security_response
                     or {
-                        "app_id": 1234567,
+                        "app_id": 3937401,
                         "cloudflare_zone_id": "zone123",
                         "security_events": [],
                         "period": "last_24h",
@@ -69,7 +69,7 @@ def _make_cloudflare_handler(
                     200,
                     json=logpush_analytics_response
                     or {
-                        "app_id": 1234567,
+                        "app_id": 3937401,
                         "cloudflare_zone_id": "zone123",
                         "analytics": {},
                         "period": "last_24h",
@@ -118,7 +118,7 @@ class TestGetCloudflareAnalytics:
 
         async with PatchedClient("test@test.com", "key123") as client:
             result = await client.get_cloudflare_analytics(
-                app_id=1234567, server_id=999999, mins=60
+                app_id=3937401, server_id=1089270, mins=60
             )
 
         assert isinstance(result, list)
@@ -140,7 +140,7 @@ class TestGetCloudflareAnalytics:
         async with PatchedClient("test@test.com", "key123") as client:
             with pytest.raises(APIError, match="API request failed with status 422"):
                 await client.get_cloudflare_analytics(
-                    app_id=1234567, server_id=999999, mins=60
+                    app_id=3937401, server_id=1089270, mins=60
                 )
 
 
@@ -155,7 +155,7 @@ class TestGetCloudflareSecurity:
 
         async with PatchedClient("test@test.com", "key123") as client:
             result = await client.get_cloudflare_security(
-                app_id=1234567, server_id=999999, mins=60
+                app_id=3937401, server_id=1089270, mins=60
             )
 
         assert isinstance(result, list)
@@ -176,7 +176,7 @@ class TestGetCloudflareSecurity:
         async with PatchedClient("test@test.com", "key123") as client:
             with pytest.raises(APIError, match="API request failed with status 422"):
                 await client.get_cloudflare_security(
-                    app_id=1234567, server_id=999999, mins=60
+                    app_id=3937401, server_id=1089270, mins=60
                 )
 
 
@@ -190,7 +190,7 @@ class TestGetCloudflareLogpushAnalytics:
         PatchedClient = make_patched_client_class(transport)
 
         async with PatchedClient("test@test.com", "key123") as client:
-            result = await client.get_cloudflare_logpush_analytics(app_id=1234567)
+            result = await client.get_cloudflare_logpush_analytics(app_id=3937401)
 
         assert isinstance(result, dict)
         cf_requests = [r for r in captured if "/cloudflare/" in str(r.url)]
@@ -208,7 +208,7 @@ class TestGetCloudflareLogpushAnalytics:
 
         async with PatchedClient("test@test.com", "key123") as client:
             with pytest.raises(APIError, match="API request failed with status 422"):
-                await client.get_cloudflare_logpush_analytics(app_id=1234567)
+                await client.get_cloudflare_logpush_analytics(app_id=3937401)
 
 
 class TestGetCloudflareLogpushSecurity:
@@ -221,7 +221,7 @@ class TestGetCloudflareLogpushSecurity:
         PatchedClient = make_patched_client_class(transport)
 
         async with PatchedClient("test@test.com", "key123") as client:
-            result = await client.get_cloudflare_logpush_security(app_id=1234567)
+            result = await client.get_cloudflare_logpush_security(app_id=3937401)
 
         assert isinstance(result, dict)
         cf_requests = [r for r in captured if "/cloudflare/" in str(r.url)]
@@ -239,7 +239,7 @@ class TestGetCloudflareLogpushSecurity:
 
         async with PatchedClient("test@test.com", "key123") as client:
             with pytest.raises(APIError, match="API request failed with status 422"):
-                await client.get_cloudflare_logpush_security(app_id=1234567)
+                await client.get_cloudflare_logpush_security(app_id=3937401)
 
 
 # =====================================================================

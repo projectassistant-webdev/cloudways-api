@@ -46,6 +46,8 @@ def _make_server_handler(
     restart_error=False,
     delete_error=False,
     update_error=False,
+    upgrade_php_response=None,
+    upgrade_php_error=False,
 ):
     """Build httpx mock handler for server lifecycle API calls."""
 
@@ -87,6 +89,13 @@ def _make_server_handler(
                 return httpx.Response(404, text="Not found")
             return httpx.Response(200, json=update_response or {})
 
+        if "/server/manage/package" in url and method == "POST":
+            if upgrade_php_error:
+                return httpx.Response(422, text="Package upgrade failed")
+            return httpx.Response(
+                200, json=upgrade_php_response or {"operation_id": 99001}
+            )
+
         return httpx.Response(404)
 
     return handler
@@ -120,7 +129,7 @@ class TestStopServer:
         PatchedClient = make_patched_client_class(transport)
 
         async with PatchedClient("test@example.com", "key") as client:
-            result = await client.stop_server(server_id=999999)
+            result = await client.stop_server(server_id=1089270)
 
         assert result["operation_id"] == 99001
         request = [
@@ -128,7 +137,7 @@ class TestStopServer:
         ][0]
         assert request.method == "POST"
         assert "/server/stop" in str(request.url)
-        assert request.content.decode() == "server_id=999999"
+        assert request.content.decode() == "server_id=1089270"
 
     @pytest.mark.asyncio
     async def test_stop_server_api_error(self) -> None:
@@ -146,7 +155,7 @@ class TestStopServer:
 
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
-                await client.stop_server(server_id=999999)
+                await client.stop_server(server_id=1089270)
 
 
 class TestStartServer:
@@ -169,7 +178,7 @@ class TestStartServer:
         PatchedClient = make_patched_client_class(transport)
 
         async with PatchedClient("test@example.com", "key") as client:
-            result = await client.start_server(server_id=999999)
+            result = await client.start_server(server_id=1089270)
 
         assert result["operation_id"] == 99001
         request = [
@@ -177,7 +186,7 @@ class TestStartServer:
         ][0]
         assert request.method == "POST"
         assert "/server/start" in str(request.url)
-        assert request.content.decode() == "server_id=999999"
+        assert request.content.decode() == "server_id=1089270"
 
     @pytest.mark.asyncio
     async def test_start_server_api_error(self) -> None:
@@ -195,7 +204,7 @@ class TestStartServer:
 
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
-                await client.start_server(server_id=999999)
+                await client.start_server(server_id=1089270)
 
 
 class TestRestartServer:
@@ -218,7 +227,7 @@ class TestRestartServer:
         PatchedClient = make_patched_client_class(transport)
 
         async with PatchedClient("test@example.com", "key") as client:
-            result = await client.restart_server(server_id=999999)
+            result = await client.restart_server(server_id=1089270)
 
         assert result["operation_id"] == 99001
         request = [
@@ -228,7 +237,7 @@ class TestRestartServer:
         ][0]
         assert request.method == "POST"
         assert "/server/restart" in str(request.url)
-        assert request.content.decode() == "server_id=999999"
+        assert request.content.decode() == "server_id=1089270"
 
     @pytest.mark.asyncio
     async def test_restart_server_api_error(self) -> None:
@@ -246,7 +255,7 @@ class TestRestartServer:
 
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
-                await client.restart_server(server_id=999999)
+                await client.restart_server(server_id=1089270)
 
 
 class TestDeleteServer:
@@ -261,7 +270,7 @@ class TestDeleteServer:
             captured.append(request)
             if "/oauth/access_token" in str(request.url):
                 return httpx.Response(200, json=make_auth_response())
-            if "/server/999999" in str(request.url) and request.method == "DELETE":
+            if "/server/1089270" in str(request.url) and request.method == "DELETE":
                 return httpx.Response(200, json={"operation_id": 99001})
             return httpx.Response(404)
 
@@ -269,12 +278,12 @@ class TestDeleteServer:
         PatchedClient = make_patched_client_class(transport)
 
         async with PatchedClient("test@example.com", "key") as client:
-            result = await client.delete_server(server_id=999999)
+            result = await client.delete_server(server_id=1089270)
 
         assert result["operation_id"] == 99001
         request = [r for r in captured if r.method == "DELETE"][0]
         assert request.method == "DELETE"
-        assert "/server/999999" in str(request.url)
+        assert "/server/1089270" in str(request.url)
         assert request.content == b""
 
     @pytest.mark.asyncio
@@ -293,7 +302,7 @@ class TestDeleteServer:
 
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
-                await client.delete_server(server_id=999999)
+                await client.delete_server(server_id=1089270)
 
 
 class TestUpdateServer:
@@ -308,7 +317,7 @@ class TestUpdateServer:
             captured.append(request)
             if "/oauth/access_token" in str(request.url):
                 return httpx.Response(200, json=make_auth_response())
-            if "/server/999999" in str(request.url) and request.method == "PUT":
+            if "/server/1089270" in str(request.url) and request.method == "PUT":
                 return httpx.Response(200, json={})
             return httpx.Response(404)
 
@@ -317,13 +326,13 @@ class TestUpdateServer:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.update_server(
-                server_id=999999, label="my-new-server"
+                server_id=1089270, label="my-new-server"
             )
 
         assert result == {}
         request = [r for r in captured if r.method == "PUT"][0]
         assert request.method == "PUT"
-        assert "/server/999999" in str(request.url)
+        assert "/server/1089270" in str(request.url)
         assert request.content.decode() == "label=my-new-server"
 
     @pytest.mark.asyncio
@@ -342,7 +351,7 @@ class TestUpdateServer:
 
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
-                await client.update_server(server_id=999999, label="my-new-server")
+                await client.update_server(server_id=1089270, label="my-new-server")
 
     @pytest.mark.asyncio
     async def test_update_server_empty_body(self) -> None:
@@ -360,10 +369,68 @@ class TestUpdateServer:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.update_server(
-                server_id=999999, label="my-new-server"
+                server_id=1089270, label="my-new-server"
             )
 
         assert result == {}
+
+
+class TestManageServerPackage:
+    """Tests for CloudwaysClient.manage_server_package()."""
+
+    @pytest.mark.asyncio
+    async def test_manage_server_package_success(self) -> None:
+        """POST /server/manage/package with form-encoded body."""
+        captured = []
+
+        def handler(request: httpx.Request) -> httpx.Response:
+            captured.append(request)
+            if "/oauth/access_token" in str(request.url):
+                return httpx.Response(200, json=make_auth_response())
+            if "/server/manage/package" in str(request.url) and request.method == "POST":
+                return httpx.Response(200, json={"operation_id": 99001})
+            return httpx.Response(404)
+
+        transport = httpx.MockTransport(handler)
+        PatchedClient = make_patched_client_class(transport)
+
+        async with PatchedClient("test@example.com", "key") as client:
+            result = await client.manage_server_package(
+                server_id=1089270, package_name="php", package_version="8.2"
+            )
+
+        assert result["operation_id"] == 99001
+        request = [
+            r
+            for r in captured
+            if r.method == "POST" and "/server/manage/package" in str(r.url)
+        ][0]
+        assert request.method == "POST"
+        assert "/server/manage/package" in str(request.url)
+        body = request.content.decode()
+        assert "server_id=1089270" in body
+        assert "package_name=php" in body
+        assert "package_version=8.2" in body
+
+    @pytest.mark.asyncio
+    async def test_manage_server_package_api_error(self) -> None:
+        """Raises APIError on 422."""
+
+        def handler(request: httpx.Request) -> httpx.Response:
+            if "/oauth/access_token" in str(request.url):
+                return httpx.Response(200, json=make_auth_response())
+            if "/server/manage/package" in str(request.url):
+                return httpx.Response(422, text="Package upgrade failed")
+            return httpx.Response(404)
+
+        transport = httpx.MockTransport(handler)
+        PatchedClient = make_patched_client_class(transport)
+
+        async with PatchedClient("test@example.com", "key") as client:
+            with pytest.raises(APIError):
+                await client.manage_server_package(
+                    server_id=1089270, package_name="php", package_version="8.2"
+                )
 
 
 # ===================================================================
@@ -385,7 +452,7 @@ class TestServerStop:
                 result = runner.invoke(app, ["server", "stop"])
 
         assert result.exit_code == 0, result.output
-        assert "Server 999999 stopped." in result.output
+        assert "Server 1089270 stopped." in result.output
 
     def test_server_stop_api_error(self, set_env) -> None:
         """API 422 exits with code 1."""
@@ -438,7 +505,7 @@ class TestServerStop:
                 result = runner.invoke(app, ["server", "stop"])
 
         assert result.exit_code == 0, result.output
-        assert "Server 999999 stopped." in result.output
+        assert "Server 1089270 stopped." in result.output
 
 
 class TestServerStart:
@@ -455,7 +522,7 @@ class TestServerStart:
                 result = runner.invoke(app, ["server", "start"])
 
         assert result.exit_code == 0, result.output
-        assert "Server 999999 started." in result.output
+        assert "Server 1089270 started." in result.output
 
     def test_server_start_api_error(self, set_env) -> None:
         """API 422 exits with code 1."""
@@ -512,7 +579,7 @@ class TestServerRestart:
                 result = runner.invoke(app, ["server", "restart"])
 
         assert result.exit_code == 0, result.output
-        assert "Server 999999 restarted." in result.output
+        assert "Server 1089270 restarted." in result.output
 
     def test_server_restart_api_error(self, set_env) -> None:
         """API 422 exits with code 1."""
@@ -576,7 +643,7 @@ class TestServerDelete:
                 result = runner.invoke(app, ["server", "delete", "--confirm"])
 
         assert result.exit_code == 0, result.output
-        assert "Server 999999 deleted." in result.output
+        assert "Server 1089270 deleted." in result.output
 
     def test_server_delete_api_error(self, set_env) -> None:
         """API 422 exits with code 1."""
@@ -637,7 +704,7 @@ class TestServerRename:
             )
 
         assert result.exit_code == 0, result.output
-        assert "Renamed server 999999 to 'my-new-server'" in result.output
+        assert "Renamed server 1089270 to 'my-new-server'" in result.output
 
     def test_server_rename_blank_label(self, set_env) -> None:
         """Blank --label exits with code 1."""
@@ -695,6 +762,85 @@ class TestServerRename:
         assert not any("/operation/" in url for url in captured_urls)
 
 
+class TestServerUpgradePhp:
+    """Tests for `cloudways server upgrade-php` command."""
+
+    def test_server_upgrade_php_success(self, set_env) -> None:
+        """Upgrades PHP, polls operation, prints success."""
+        handler = _make_server_handler()
+        transport = httpx.MockTransport(handler)
+        PatchedClient = make_patched_client_class(transport)
+
+        with patch("cloudways_api.client.asyncio.sleep", return_value=None):
+            with patch("cloudways_api.commands.server.CloudwaysClient", PatchedClient):
+                result = runner.invoke(app, ["server", "upgrade-php", "--version", "8.3"])
+
+        assert result.exit_code == 0, result.output
+        assert "PHP upgraded to 8.3 on server 1089270." in result.output
+
+    def test_server_upgrade_php_api_error(self, set_env) -> None:
+        """API 422 exits with code 1."""
+        handler = _make_server_handler(upgrade_php_error=True)
+        transport = httpx.MockTransport(handler)
+        PatchedClient = make_patched_client_class(transport)
+
+        with patch("cloudways_api.commands.server.CloudwaysClient", PatchedClient):
+            result = runner.invoke(app, ["server", "upgrade-php", "--version", "8.3"])
+
+        assert result.exit_code == 1
+        assert "API request failed with status 422" in result.output
+
+    def test_server_upgrade_php_timeout(self, set_env) -> None:
+        """Operation timeout exits 1 with platform hint."""
+        handler = _make_server_handler(
+            operation_response=_make_operation_pending_response()
+        )
+        transport = httpx.MockTransport(handler)
+        PatchedClient = make_patched_client_class(transport)
+
+        start_time = _time.monotonic()
+        call_count = {"value": 0}
+
+        def mock_monotonic():
+            call_count["value"] += 1
+            return start_time + (call_count["value"] * 200)
+
+        with patch("cloudways_api.client.asyncio.sleep", return_value=None):
+            with patch(
+                "cloudways_api.client.time.monotonic",
+                side_effect=mock_monotonic,
+            ):
+                with patch(
+                    "cloudways_api.commands.server.CloudwaysClient", PatchedClient
+                ):
+                    result = runner.invoke(
+                        app,
+                        ["server", "upgrade-php", "--version", "8.3", "--timeout", "1"],
+                    )
+
+        assert result.exit_code == 1
+        assert "platform.cloudways.com" in result.output
+
+    def test_server_upgrade_php_blank_version(self, set_env) -> None:
+        """Blank --version exits with code 1."""
+        result = runner.invoke(app, ["server", "upgrade-php", "--version", ""])
+
+        assert result.exit_code == 1
+        assert "--version cannot be blank" in result.output
+
+    def test_server_upgrade_php_no_operation_id(self, set_env) -> None:
+        """No operation_id in response skips polling, still succeeds."""
+        handler = _make_server_handler(upgrade_php_response={})
+        transport = httpx.MockTransport(handler)
+        PatchedClient = make_patched_client_class(transport)
+
+        with patch("cloudways_api.commands.server.CloudwaysClient", PatchedClient):
+            result = runner.invoke(app, ["server", "upgrade-php", "--version", "8.3"])
+
+        assert result.exit_code == 0, result.output
+        assert "PHP upgraded to 8.3 on server 1089270." in result.output
+
+
 # ===================================================================
 # CLI registration tests
 # ===================================================================
@@ -717,3 +863,4 @@ class TestServerRegistration:
         assert "restart" in result.output
         assert "delete" in result.output
         assert "rename" in result.output
+        assert "upgrade-php" in result.output

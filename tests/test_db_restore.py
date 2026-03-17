@@ -25,16 +25,16 @@ def _patch_config(monkeypatch: pytest.MonkeyPatch) -> None:
 _LS_OUTPUT = (
     "total 144M\n"
     "-rw-r--r-- 1 root root 48M Feb  6 14:30 "
-    "cloudways_backup_wp_example_20260206_143022.sql.gz\n"
+    "cloudways_backup_wp_projectassistant_20260206_143022.sql.gz\n"
     "-rw-r--r-- 1 root root 47M Feb  5 09:15 "
-    "cloudways_backup_wp_example_20260205_091511.sql.gz\n"
+    "cloudways_backup_wp_projectassistant_20260205_091511.sql.gz\n"
     "-rw-r--r-- 1 root root 46M Feb  4 16:12 "
-    "cloudways_backup_wp_example_20260204_161200.sql.gz\n"
+    "cloudways_backup_wp_projectassistant_20260204_161200.sql.gz\n"
 )
 
 # Most recent backup path
 _MOST_RECENT = (
-    "/tmp/cloudways_backup_wp_example_20260206_143022.sql.gz\n"
+    "/tmp/cloudways_backup_wp_projectassistant_20260206_143022.sql.gz\n"
 )
 
 
@@ -57,7 +57,7 @@ def _mock_db_restore_success(
 
         # wp-config detection
         if "DB_NAME" in cmd:
-            return ("define('DB_NAME', 'wp_example');", "", 0)
+            return ("define('DB_NAME', 'wp_projectassistant');", "", 0)
         # ls -lah for listing
         if "ls -lah" in cmd:
             return (ls_output, "", 0)
@@ -178,7 +178,7 @@ class TestDBRestoreSpecificFile:
                 cmd = kwargs["command"]
 
             if "DB_NAME" in cmd:
-                return ("define('DB_NAME', 'wp_example');", "", 0)
+                return ("define('DB_NAME', 'wp_projectassistant');", "", 0)
             if "test -s" in cmd:
                 # File does not exist
                 return ("", "No such file", 1)
@@ -224,7 +224,7 @@ class TestDBRestoreSpecificFile:
                 cmd = kwargs["command"]
 
             if "DB_NAME" in cmd:
-                return ("define('DB_NAME', 'wp_example');", "", 0)
+                return ("define('DB_NAME', 'wp_projectassistant');", "", 0)
             if "test -s" in cmd:
                 # File exists but is empty (test -s fails)
                 return ("", "", 1)
@@ -360,7 +360,7 @@ class TestDBRestoreErrors:
                 cmd = kwargs["command"]
 
             if "DB_NAME" in cmd:
-                return ("define('DB_NAME', 'wp_example');", "", 0)
+                return ("define('DB_NAME', 'wp_projectassistant');", "", 0)
             if "ls -t" in cmd:
                 return (_MOST_RECENT, "", 0)
             if "test -s" in cmd:
@@ -466,7 +466,7 @@ class TestDBRestoreBackupVerification:
             if "test -s" in cmd:
                 captured_kwargs.append(kwargs)
             if "DB_NAME" in cmd:
-                return ("define('DB_NAME', 'wp_example');", "", 0)
+                return ("define('DB_NAME', 'wp_projectassistant');", "", 0)
             if "ls -t" in cmd:
                 return (_MOST_RECENT, "", 0)
             if "test -s" in cmd:
@@ -506,7 +506,7 @@ class TestDBRestoreBackupVerification:
                 cmd = kwargs["command"]
 
             if "DB_NAME" in cmd:
-                return ("define('DB_NAME', 'wp_example');", "", 0)
+                return ("define('DB_NAME', 'wp_projectassistant');", "", 0)
             if "test -s" in cmd:
                 return ("", "", 1)
             return ("", "", 0)
@@ -550,7 +550,7 @@ class TestDBRestoreListBackupsErrorHandling:
                 cmd = kwargs["command"]
 
             if "DB_NAME" in cmd:
-                return ("define('DB_NAME', 'wp_example');", "", 0)
+                return ("define('DB_NAME', 'wp_projectassistant');", "", 0)
             if "ls -lah" in cmd:
                 # ls fails when no files match glob
                 return ("", "ls: cannot access ...: No such file", 2)
@@ -591,7 +591,7 @@ class TestDBRestoreListBackupsErrorHandling:
             if "ls -lah" in cmd:
                 captured_kwargs.append(kwargs)
             if "DB_NAME" in cmd:
-                return ("define('DB_NAME', 'wp_example');", "", 0)
+                return ("define('DB_NAME', 'wp_projectassistant');", "", 0)
             if "ls -lah" in cmd:
                 return (_LS_OUTPUT, "", 0)
             return ("", "", 0)

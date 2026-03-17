@@ -165,3 +165,43 @@ async def _execute_server_rename(creds: dict, server_id: int, label: str) -> Non
     async with CloudwaysClient(creds["email"], creds["api_key"]) as client:
         await client.update_server(server_id=server_id, label=label)
         console.print(f"Renamed server {server_id} to '{label}'.")
+
+
+@server_group.command(name="upgrade-php")
+@handle_cli_errors
+def server_upgrade_php(
+    version: str = typer.Option(
+        ..., "--version", help="Target PHP version (e.g., '8.3')"
+    ),
+    timeout: int = typer.Option(
+        600, "--timeout", help="Max wait time for operation (seconds)"
+    ),
+) -> None:
+    """Upgrade PHP to the specified version on the configured server."""
+    if not version.strip():
+        err_console.print("[bold red]Error:[/bold red] --version cannot be blank.")
+        raise typer.Exit(code=1)
+    creds, config = load_creds()
+    server_id = int(config["server"]["id"])
+    asyncio.run(
+        _execute_server_upgrade_php(
+            creds=creds, server_id=server_id, version=version.strip(), timeout=timeout
+        )
+    )
+
+
+async def _execute_server_upgrade_php(
+    creds: dict, server_id: int, version: str, timeout: int
+) -> None:
+    """Execute PHP upgrade workflow."""
+    async with CloudwaysClient(creds["email"], creds["api_key"]) as client:
+        result = await client.manage_server_package(
+            server_id=server_id, package_name="php", package_version=version
+        )
+        operation_id = result.get("operation_id")
+        if operation_id:
+            with console.status(
+                "[bold green]Waiting for PHP upgrade to complete...[/bold green]"
+            ):
+                await client.wait_for_operation(operation_id, max_wait=timeout)
+        console.print(f"PHP upgraded to {version} on server {server_id}.")

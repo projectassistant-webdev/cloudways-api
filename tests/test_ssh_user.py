@@ -26,12 +26,12 @@ MOCK_CREDS_LIST_RESPONSE = {
         {
             "id": 100,
             "sys_user": "bitbucket",
-            "ip": "1.2.3.4",
+            "ip": "159.223.142.14",
         },
         {
             "id": 101,
             "sys_user": "deploy",
-            "ip": "1.2.3.4",
+            "ip": "159.223.142.14",
         },
     ]
 }
@@ -124,7 +124,7 @@ class TestCreateAppCredential:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.create_app_credential(
-                server_id=999999, app_id=1234567, username="newuser", password="pass123"
+                server_id=1089270, app_id=3937401, username="newuser", password="pass123"
             )
 
         assert result["app_cred"]["id"] == 102
@@ -148,7 +148,7 @@ class TestCreateAppCredential:
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
                 await client.create_app_credential(
-                    server_id=999999, app_id=1234567, username="newuser", password="p"
+                    server_id=1089270, app_id=3937401, username="newuser", password="p"
                 )
 
 
@@ -171,7 +171,7 @@ class TestGetAppCredentials:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.get_app_credentials(
-                server_id=999999, app_id=1234567
+                server_id=1089270, app_id=3937401
             )
 
         assert len(result) == 2
@@ -193,7 +193,7 @@ class TestGetAppCredentials:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.get_app_credentials(
-                server_id=999999, app_id=1234567
+                server_id=1089270, app_id=3937401
             )
 
         assert result == []
@@ -218,7 +218,7 @@ class TestDeleteAppCredential:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.delete_app_credential(
-                server_id=999999, app_id=1234567, app_cred_id=100
+                server_id=1089270, app_id=3937401, app_cred_id=100
             )
 
         assert result == {}
@@ -240,7 +240,7 @@ class TestDeleteAppCredential:
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
                 await client.delete_app_credential(
-                    server_id=999999, app_id=1234567, app_cred_id=99999
+                    server_id=1089270, app_id=3937401, app_cred_id=99999
                 )
 
     @pytest.mark.asyncio
@@ -259,7 +259,7 @@ class TestDeleteAppCredential:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.delete_app_credential(
-                server_id=999999, app_id=1234567, app_cred_id=100
+                server_id=1089270, app_id=3937401, app_cred_id=100
             )
 
         assert result == {}
@@ -280,7 +280,7 @@ class TestDeleteAppCredential:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.delete_app_credential(
-                server_id=999999, app_id=1234567, app_cred_id=100
+                server_id=1089270, app_id=3937401, app_cred_id=100
             )
 
         assert result == {}

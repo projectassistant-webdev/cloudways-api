@@ -32,21 +32,21 @@ def _make_servers_response() -> dict:
         "status": True,
         "servers": [
             {
-                "id": "999999",
-                "label": "example-prod",
+                "id": "1089270",
+                "label": "projectassistant-prod",
                 "status": "running",
                 "cloud": "do",
                 "region": "nyc3",
-                "public_ip": "1.2.3.4",
-                "master_user": "master_example",
+                "public_ip": "159.223.142.14",
+                "master_user": "master_pbztrcznuv",
                 "apps": [
                     {
-                        "id": "1234567",
+                        "id": "3937401",
                         "label": "My WordPress App",
                         "application": "wordpress",
                         "app_version": "6.4",
-                        "cname": "wp.example.com",
-                        "server_id": "999999",
+                        "cname": "wp.projectassistant.org",
+                        "server_id": "1089270",
                         "sys_user": "appuser",
                         "mysql_db_name": "dbname",
                         "webroot": "public_html",
@@ -253,8 +253,8 @@ class TestClientGetServers:
             servers = await client.get_servers()
 
         assert len(servers) == 1
-        assert servers[0]["id"] == "999999"
-        assert servers[0]["label"] == "example-prod"
+        assert servers[0]["id"] == "1089270"
+        assert servers[0]["label"] == "projectassistant-prod"
 
 
 class TestClientGetServerSettings:
@@ -277,7 +277,7 @@ class TestClientGetServerSettings:
             api_key="test_key",
             transport=transport,
         ) as client:
-            settings = await client.get_server_settings(999999)
+            settings = await client.get_server_settings(1089270)
 
         assert settings["settings"]["package_versions"]["php"] == "8.1"
         assert settings["settings"]["package_versions"]["mariadb"] == "10.6"
@@ -1028,7 +1028,7 @@ class TestClientMutationMethods:
             email="test@example.com", api_key="test_key", transport=transport
         ) as client:
             await client.create_app(
-                server_id=999999,
+                server_id=1089270,
                 application="wordpress",
                 app_version="6.5",
                 app_label="my-app",
@@ -1037,7 +1037,7 @@ class TestClientMutationMethods:
 
         assert captured["method"] == "POST"
         body = captured["body"]
-        assert "server_id=999999" in body
+        assert "server_id=1089270" in body
         assert "application=wordpress" in body
         assert "app_label=my-app" in body
 
@@ -1057,7 +1057,7 @@ class TestClientMutationMethods:
             email="test@example.com", api_key="test_key", transport=transport
         ) as client:
             result = await client.create_app(
-                server_id=999999, application="wordpress",
+                server_id=1089270, application="wordpress",
                 app_version="6.5", app_label="a", project_name="P",
             )
 
@@ -1113,12 +1113,12 @@ class TestClientPostCreationConfig:
             email="test@example.com", api_key="test_key", transport=transport
         ) as client:
             result = await client.update_php_version(
-                server_id=999999, app_id="1234567", php_version="8.2"
+                server_id=1089270, app_id="3937401", php_version="8.2"
             )
 
         assert captured["method"] == "PUT"
-        assert "server_id=999999" in captured["body"]
-        assert "app_id=1234567" in captured["body"]
+        assert "server_id=1089270" in captured["body"]
+        assert "app_id=3937401" in captured["body"]
         assert "php_version=8.2" in captured["body"]
         assert result["status"] is True
 
@@ -1141,12 +1141,12 @@ class TestClientPostCreationConfig:
             email="test@example.com", api_key="test_key", transport=transport
         ) as client:
             result = await client.add_domain(
-                server_id=999999, app_id="1234567", domain="example.com"
+                server_id=1089270, app_id="3937401", domain="example.com"
             )
 
         assert captured["method"] == "POST"
-        assert "server_id=999999" in captured["body"]
-        assert "app_id=1234567" in captured["body"]
+        assert "server_id=1089270" in captured["body"]
+        assert "app_id=3937401" in captured["body"]
         assert "cname=example.com" in captured["body"]
         assert result["status"] is True
 
@@ -1571,16 +1571,16 @@ class TestCreateStagingApp:
             email="test@example.com", api_key="test_key", transport=transport
         ) as client:
             result = await client.create_staging_app(
-                server_id=999999,
-                app_id=1234567,
+                server_id=1089270,
+                app_id=3937401,
                 app_label="staging-production",
                 project_name="Default",
             )
 
         assert captured["method"] == "POST"
         body = captured["body"]
-        assert "server_id=999999" in body
-        assert "app_id=1234567" in body
+        assert "server_id=1089270" in body
+        assert "app_id=3937401" in body
         assert "app_label=staging-production" in body
         assert "project_name=Default" in body
         assert result["app"]["id"] == "5551234"
@@ -1632,14 +1632,14 @@ class TestResetPermissions:
             email="test@example.com", api_key="test_key", transport=transport
         ) as client:
             result = await client.reset_permissions(
-                server_id=999999, app_id=1234567
+                server_id=1089270, app_id=3937401
             )
 
         # Verify query params
         assert "ownership=sys_user" in captured["url"]
         # Verify form body
-        assert "server_id=999999" in captured["body"]
-        assert "app_id=1234567" in captured["body"]
+        assert "server_id=1089270" in captured["body"]
+        assert "app_id=3937401" in captured["body"]
         assert result == {}
 
     @pytest.mark.asyncio

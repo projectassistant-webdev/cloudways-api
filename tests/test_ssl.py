@@ -5,6 +5,7 @@ custom SSL install/remove commands with mocked Cloudways API responses,
 plus client method tests for all eight SSL operations.
 """
 
+import json as json_lib
 from unittest.mock import patch
 
 import httpx
@@ -169,8 +170,8 @@ class TestInstallLetsEncrypt:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.install_lets_encrypt(
-                server_id=999999,
-                app_id=1234567,
+                server_id=1089270,
+                app_id=3937401,
                 ssl_email="admin@example.com",
                 ssl_domains=["example.com"],
             )
@@ -183,12 +184,12 @@ class TestInstallLetsEncrypt:
         ][0]
         assert request.method == "POST"
         assert "/security/lets_encrypt_install" in str(request.url)
-        body = request.content.decode()
-        assert "server_id=999999" in body
-        assert "app_id=1234567" in body
-        assert "ssl_email=admin" in body
-        assert "ssl_domains=example.com" in body
-        assert "wild_card=false" in body
+        data = json_lib.loads(request.content.decode())
+        assert data["server_id"] == 1089270
+        assert data["app_id"] == 3937401
+        assert "admin" in data["ssl_email"]
+        assert data["ssl_domains"] == ["example.com"]
+        assert data["wild_card"] is False
 
     @pytest.mark.asyncio
     async def test_install_lets_encrypt_empty_domains(self) -> None:
@@ -211,8 +212,8 @@ class TestInstallLetsEncrypt:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.install_lets_encrypt(
-                server_id=999999,
-                app_id=1234567,
+                server_id=1089270,
+                app_id=3937401,
                 ssl_email="admin@example.com",
                 ssl_domains=[],
             )
@@ -236,19 +237,19 @@ class TestInstallLetsEncrypt:
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
                 await client.install_lets_encrypt(
-                    server_id=999999,
-                    app_id=1234567,
+                    server_id=1089270,
+                    app_id=3937401,
                     ssl_email="admin@example.com",
                     ssl_domains=["example.com"],
                 )
 
 
 class TestInstallLetsEncryptArrayEncoding:
-    """Tests for ssl_domains repeated-key form encoding."""
+    """Tests for ssl_domains JSON array encoding."""
 
     @pytest.mark.asyncio
     async def test_install_lets_encrypt_array_encoding(self) -> None:
-        """POST with two domains produces repeated keys."""
+        """POST with two domains produces JSON array body."""
         captured = []
 
         def handler(request: httpx.Request) -> httpx.Response:
@@ -267,8 +268,8 @@ class TestInstallLetsEncryptArrayEncoding:
 
         async with PatchedClient("test@example.com", "key") as client:
             await client.install_lets_encrypt(
-                server_id=999999,
-                app_id=1234567,
+                server_id=1089270,
+                app_id=3937401,
                 ssl_email="admin@example.com",
                 ssl_domains=["example.com", "www.example.com"],
             )
@@ -278,9 +279,9 @@ class TestInstallLetsEncryptArrayEncoding:
             for r in captured
             if r.method == "POST" and "/security/lets_encrypt_install" in str(r.url)
         ][0]
-        body = request.content.decode()
-        assert "ssl_domains=example.com" in body
-        assert "ssl_domains=www.example.com" in body
+        assert request.headers["content-type"] == "application/json"
+        data = json_lib.loads(request.content.decode())
+        assert data["ssl_domains"] == ["example.com", "www.example.com"]
 
 
 class TestCreateWildcardDns:
@@ -315,8 +316,8 @@ class TestCreateWildcardDns:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.create_wildcard_dns(
-                server_id=999999,
-                app_id=1234567,
+                server_id=1089270,
+                app_id=3937401,
                 ssl_email="admin@example.com",
                 ssl_domains=["example.com"],
             )
@@ -327,10 +328,11 @@ class TestCreateWildcardDns:
             for r in captured
             if r.method == "POST" and "/security/createDNS" in str(r.url)
         ][0]
-        body = request.content.decode()
-        assert "server_id=999999" in body
-        assert "app_id=1234567" in body
-        assert "wild_card=true" in body
+        data = json_lib.loads(request.content.decode())
+        assert data["server_id"] == 1089270
+        assert data["app_id"] == 3937401
+        assert data["wild_card"] is True
+        assert data["ssl_domains"] == ["example.com"]
 
     @pytest.mark.asyncio
     async def test_create_wildcard_dns_api_error(self) -> None:
@@ -349,8 +351,8 @@ class TestCreateWildcardDns:
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
                 await client.create_wildcard_dns(
-                    server_id=999999,
-                    app_id=1234567,
+                    server_id=1089270,
+                    app_id=3937401,
                     ssl_email="admin@example.com",
                     ssl_domains=["example.com"],
                 )
@@ -378,8 +380,8 @@ class TestCreateWildcardDns:
 
         async with PatchedClient("test@example.com", "key") as client:
             await client.create_wildcard_dns(
-                server_id=999999,
-                app_id=1234567,
+                server_id=1089270,
+                app_id=3937401,
                 ssl_email="admin@example.com",
                 ssl_domains=["example.com"],
             )
@@ -389,7 +391,8 @@ class TestCreateWildcardDns:
             for r in captured
             if r.method == "POST" and "/security/createDNS" in str(r.url)
         ][0]
-        assert "wild_card=true" in request.content.decode()
+        data = json_lib.loads(request.content.decode())
+        assert data["wild_card"] is True
 
 
 class TestVerifyWildcardDns:
@@ -424,8 +427,8 @@ class TestVerifyWildcardDns:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.verify_wildcard_dns(
-                server_id=999999,
-                app_id=1234567,
+                server_id=1089270,
+                app_id=3937401,
                 ssl_email="admin@example.com",
                 ssl_domains=["example.com"],
             )
@@ -438,10 +441,11 @@ class TestVerifyWildcardDns:
             for r in captured
             if r.method == "POST" and "/security/verifyDNS" in str(r.url)
         ][0]
-        body = request.content.decode()
-        assert "server_id=999999" in body
-        assert "app_id=1234567" in body
-        assert "wild_card=true" in body
+        data = json_lib.loads(request.content.decode())
+        assert data["server_id"] == 1089270
+        assert data["app_id"] == 3937401
+        assert data["wild_card"] is True
+        assert data["ssl_domains"] == ["example.com"]
 
     @pytest.mark.asyncio
     async def test_verify_wildcard_dns_api_error(self) -> None:
@@ -460,8 +464,8 @@ class TestVerifyWildcardDns:
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
                 await client.verify_wildcard_dns(
-                    server_id=999999,
-                    app_id=1234567,
+                    server_id=1089270,
+                    app_id=3937401,
                     ssl_email="admin@example.com",
                     ssl_domains=["example.com"],
                 )
@@ -489,8 +493,8 @@ class TestVerifyWildcardDns:
 
         async with PatchedClient("test@example.com", "key") as client:
             await client.verify_wildcard_dns(
-                server_id=999999,
-                app_id=1234567,
+                server_id=1089270,
+                app_id=3937401,
                 ssl_email="admin@example.com",
                 ssl_domains=["example.com"],
             )
@@ -500,7 +504,8 @@ class TestVerifyWildcardDns:
             for r in captured
             if r.method == "POST" and "/security/verifyDNS" in str(r.url)
         ][0]
-        assert "wild_card=true" in request.content.decode()
+        data = json_lib.loads(request.content.decode())
+        assert data["wild_card"] is True
 
 
 class TestRenewLetsEncrypt:
@@ -527,8 +532,8 @@ class TestRenewLetsEncrypt:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.renew_lets_encrypt(
-                server_id=999999,
-                app_id=1234567,
+                server_id=1089270,
+                app_id=3937401,
             )
 
         assert result == {"operation_id": 12345}
@@ -539,8 +544,8 @@ class TestRenewLetsEncrypt:
             and "/security/lets_encrypt_manual_renew" in str(r.url)
         ][0]
         body = request.content.decode()
-        assert "server_id=999999" in body
-        assert "app_id=1234567" in body
+        assert "server_id=1089270" in body
+        assert "app_id=3937401" in body
         assert "wild_card=false" in body
         assert "ssl_email" not in body
         assert "domain" not in body
@@ -566,8 +571,8 @@ class TestRenewLetsEncrypt:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.renew_lets_encrypt(
-                server_id=999999,
-                app_id=1234567,
+                server_id=1089270,
+                app_id=3937401,
                 wild_card=True,
                 ssl_email="admin@example.com",
                 domain="example.com",
@@ -602,8 +607,8 @@ class TestRenewLetsEncrypt:
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
                 await client.renew_lets_encrypt(
-                    server_id=999999,
-                    app_id=1234567,
+                    server_id=1089270,
+                    app_id=3937401,
                 )
 
 
@@ -631,8 +636,8 @@ class TestSetLetsEncryptAuto:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.set_lets_encrypt_auto(
-                server_id=999999,
-                app_id=1234567,
+                server_id=1089270,
+                app_id=3937401,
                 auto=True,
             )
 
@@ -665,8 +670,8 @@ class TestSetLetsEncryptAuto:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.set_lets_encrypt_auto(
-                server_id=999999,
-                app_id=1234567,
+                server_id=1089270,
+                app_id=3937401,
                 auto=False,
             )
 
@@ -695,8 +700,8 @@ class TestSetLetsEncryptAuto:
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
                 await client.set_lets_encrypt_auto(
-                    server_id=999999,
-                    app_id=1234567,
+                    server_id=1089270,
+                    app_id=3937401,
                     auto=True,
                 )
 
@@ -725,8 +730,8 @@ class TestRevokeLetsEncrypt:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.revoke_lets_encrypt(
-                server_id=999999,
-                app_id=1234567,
+                server_id=1089270,
+                app_id=3937401,
                 ssl_domain="example.com",
             )
 
@@ -737,8 +742,8 @@ class TestRevokeLetsEncrypt:
             if r.method == "POST" and "/security/lets_encrypt_revoke" in str(r.url)
         ][0]
         body = request.content.decode()
-        assert "server_id=999999" in body
-        assert "app_id=1234567" in body
+        assert "server_id=1089270" in body
+        assert "app_id=3937401" in body
         assert "ssl_domain=example.com" in body
         assert "wild_card=false" in body
 
@@ -763,8 +768,8 @@ class TestRevokeLetsEncrypt:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.revoke_lets_encrypt(
-                server_id=999999,
-                app_id=1234567,
+                server_id=1089270,
+                app_id=3937401,
                 ssl_domain="example.com",
                 wild_card=True,
             )
@@ -794,8 +799,8 @@ class TestRevokeLetsEncrypt:
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
                 await client.revoke_lets_encrypt(
-                    server_id=999999,
-                    app_id=1234567,
+                    server_id=1089270,
+                    app_id=3937401,
                     ssl_domain="example.com",
                 )
 
@@ -821,8 +826,8 @@ class TestInstallCustomSsl:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.install_custom_ssl(
-                server_id=999999,
-                app_id=1234567,
+                server_id=1089270,
+                app_id=3937401,
                 ssl_crt="-----BEGIN CERTIFICATE-----\nMIIB...",
                 ssl_key="-----BEGIN PRIVATE KEY-----\nMIIB...",
             )
@@ -834,8 +839,8 @@ class TestInstallCustomSsl:
             if r.method == "POST" and "/security/ownSSL" in str(r.url)
         ][0]
         body = request.content.decode()
-        assert "server_id=999999" in body
-        assert "app_id=1234567" in body
+        assert "server_id=1089270" in body
+        assert "app_id=3937401" in body
         assert "ssl_crt=" in body
         assert "ssl_key=" in body
         assert "password" not in body
@@ -858,8 +863,8 @@ class TestInstallCustomSsl:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.install_custom_ssl(
-                server_id=999999,
-                app_id=1234567,
+                server_id=1089270,
+                app_id=3937401,
                 ssl_crt="CERT",
                 ssl_key="KEY",
                 password="secret",
@@ -891,8 +896,8 @@ class TestInstallCustomSsl:
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
                 await client.install_custom_ssl(
-                    server_id=999999,
-                    app_id=1234567,
+                    server_id=1089270,
+                    app_id=3937401,
                     ssl_crt="CERT",
                     ssl_key="KEY",
                 )
@@ -922,8 +927,8 @@ class TestRemoveCustomSsl:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.remove_custom_ssl(
-                server_id=999999,
-                app_id=1234567,
+                server_id=1089270,
+                app_id=3937401,
             )
 
         assert result == {"operation_id": 12345}
@@ -935,8 +940,8 @@ class TestRemoveCustomSsl:
         assert request.method == "DELETE"
         assert "/security/removeCustomSSL" in str(request.url)
         body = request.content.decode()
-        assert "server_id=999999" in body
-        assert "app_id=1234567" in body
+        assert "server_id=1089270" in body
+        assert "app_id=3937401" in body
 
     @pytest.mark.asyncio
     async def test_remove_custom_ssl_api_error(self) -> None:
@@ -955,8 +960,8 @@ class TestRemoveCustomSsl:
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
                 await client.remove_custom_ssl(
-                    server_id=999999,
-                    app_id=1234567,
+                    server_id=1089270,
+                    app_id=3937401,
                 )
 
 
@@ -1047,9 +1052,8 @@ class TestSslInstall:
             for r in captured
             if "/security/lets_encrypt_install" in str(r.url) and r.method == "POST"
         ][0]
-        body = install_req.content.decode()
-        assert "ssl_domains=example.com" in body
-        assert "ssl_domains=www.example.com" in body
+        data = json_lib.loads(install_req.content.decode())
+        assert data["ssl_domains"] == ["example.com", "www.example.com"]
 
     def test_ssl_install_api_error(self, set_env) -> None:
         """API 422 exits with code 1."""

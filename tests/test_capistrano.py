@@ -35,7 +35,7 @@ SAMPLE_GIT_CONFIG = """\
 \trepositoryformatversion = 0
 \tfilemode = true
 [remote "origin"]
-\turl = git@bitbucket.org:myworkspace/mysite-wp.git
+\turl = git@bitbucket.org:projectassistant/mysite-wp.git
 \tfetch = +refs/heads/*:refs/remotes/origin/*
 [branch "main"]
 \tremote = origin
@@ -46,7 +46,7 @@ SAMPLE_GIT_CONFIG_HTTPS = """\
 [core]
 \trepositoryformatversion = 0
 [remote "origin"]
-\turl = https://bitbucket.org/myworkspace/mysite-wp.git
+\turl = https://bitbucket.org/projectassistant/mysite-wp.git
 \tfetch = +refs/heads/*:refs/remotes/origin/*
 """
 
@@ -232,7 +232,7 @@ class TestRenderPipelines:
     def test_contains_docker_image(self) -> None:
         """AC-3C.5: Pipelines has default Docker image."""
         content = render_pipelines()
-        assert "myworkspace/pipelines:3.0" in content
+        assert "projectassistant/pipelines:3.0" in content
 
     def test_custom_docker_image(self) -> None:
         """Custom Docker image substituted."""
@@ -285,7 +285,7 @@ class TestDetectRepoUrl:
         git_dir.mkdir()
         (git_dir / "config").write_text(SAMPLE_GIT_CONFIG)
         result = detect_repo_url()
-        assert result == "git@bitbucket.org:myworkspace/mysite-wp.git"
+        assert result == "git@bitbucket.org:projectassistant/mysite-wp.git"
 
     def test_no_git_config_returns_none(
         self, tmp_path, monkeypatch
@@ -336,28 +336,28 @@ class TestDeriveAppName:
     def test_from_ssh_repo_url(self) -> None:
         """AC-3C.22: Strip .git suffix from SSH URL."""
         name = derive_app_name(
-            "git@bitbucket.org:myworkspace/mysite-wp.git"
+            "git@bitbucket.org:projectassistant/mysite-wp.git"
         )
         assert name == "mysite-wp"
 
     def test_from_https_repo_url(self) -> None:
         """HTTPS URL also works."""
         name = derive_app_name(
-            "https://bitbucket.org/myworkspace/mysite-wp.git"
+            "https://bitbucket.org/projectassistant/mysite-wp.git"
         )
         assert name == "mysite-wp"
 
     def test_no_git_suffix(self) -> None:
         """URL without .git suffix works."""
         name = derive_app_name(
-            "https://bitbucket.org/myworkspace/mysite-wp"
+            "https://bitbucket.org/projectassistant/mysite-wp"
         )
         assert name == "mysite-wp"
 
     def test_trailing_slash(self) -> None:
         """Trailing slash handled."""
         name = derive_app_name(
-            "https://bitbucket.org/myworkspace/mysite-wp.git/"
+            "https://bitbucket.org/projectassistant/mysite-wp.git/"
         )
         assert name == "mysite-wp"
 
@@ -526,8 +526,8 @@ class TestCapistranoCommand:
         content = (
             tmp_path / "config" / "deploy" / "production.rb"
         ).read_text()
-        assert "1.2.3.4" in content
-        assert "master_example" in content
+        assert "159.223.142.14" in content
+        assert "master_pbztrcznuv" in content
         assert '"main"' in content
 
     @patch(
@@ -548,8 +548,8 @@ class TestCapistranoCommand:
         content = (
             tmp_path / "config" / "deploy" / "staging.rb"
         ).read_text()
-        assert "1.2.3.4" in content
-        assert "master_example" in content
+        assert "159.223.142.14" in content
+        assert "master_pbztrcznuv" in content
         assert '"staging"' in content
 
     @patch(

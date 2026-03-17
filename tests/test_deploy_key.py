@@ -108,7 +108,7 @@ class TestGenerateDeployKey:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.generate_deploy_key(
-                server_id=999999, app_id=1234567
+                server_id=1089270, app_id=3937401
             )
 
         assert result["status"] is True
@@ -130,7 +130,7 @@ class TestGenerateDeployKey:
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
                 await client.generate_deploy_key(
-                    server_id=999999, app_id=1234567
+                    server_id=1089270, app_id=3937401
                 )
 
 
@@ -153,7 +153,7 @@ class TestGetDeployKey:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.get_deploy_key(
-                server_id=999999, app_id=1234567
+                server_id=1089270, app_id=3937401
             )
 
         assert "ssh-rsa" in result["public_key"]
@@ -175,7 +175,7 @@ class TestGetDeployKey:
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
                 await client.get_deploy_key(
-                    server_id=999999, app_id=1234567
+                    server_id=1089270, app_id=3937401
                 )
 
 
@@ -297,7 +297,7 @@ class TestDeployKeyRegister:
             ),
             patch(
                 "cloudways_api.commands.deploy_key.detect_bitbucket_repo",
-                return_value=("myworkspace", "my-project"),
+                return_value=("projectassistant", "my-project"),
             ),
             patch(
                 "cloudways_api.commands.deploy_key.BitbucketClient",
@@ -320,10 +320,10 @@ class TestDeployKeyRegister:
             "  cloudways:\n"
             "    account: primary\n"
             "    server:\n"
-            "      id: 999999\n"
+            "      id: 1089270\n"
             "    environments:\n"
             "      production:\n"
-            "        app_id: 1234567\n"
+            "        app_id: 3937401\n"
             "        domain: example.com\n"
             "bitbucket:\n"
             "  workspace: fallback-ws\n"

@@ -29,7 +29,7 @@ MOCK_CREDS_LIST_RESPONSE = {
         {
             "id": 100,
             "sys_user": "bitbucket",
-            "ip": "1.2.3.4",
+            "ip": "159.223.142.14",
         },
     ]
 }

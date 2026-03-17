@@ -97,7 +97,7 @@ class TestParseLinkedFiles:
         """Handles a real-world Bedrock Capistrano stage config."""
         stage_file = tmp_path / "production.rb"
         stage_file.write_text(
-            'server "1.2.3.4", user: "bitbucket-pawp", roles: %w{app db web}\n'
+            'server "159.223.142.14", user: "bitbucket-pawp", roles: %w{app db web}\n'
             "\n"
             'set :branch, "main"\n'
             'set :deploy_to, "~/public_html"\n'

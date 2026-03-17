@@ -736,7 +736,7 @@ class TestGetAppMonitorSummary:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.get_app_monitor_summary(
-                server_id=36780, app_id=1234567, summary_type="bw"
+                server_id=36780, app_id=3937401, summary_type="bw"
             )
 
         assert isinstance(result, dict)
@@ -746,7 +746,7 @@ class TestGetAppMonitorSummary:
         assert request.method == "GET"
         url = str(request.url)
         assert "server_id=36780" in url
-        assert "app_id=1234567" in url
+        assert "app_id=3937401" in url
         assert "type=bw" in url
 
     @pytest.mark.asyncio
@@ -759,7 +759,7 @@ class TestGetAppMonitorSummary:
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError) as exc_info:
                 await client.get_app_monitor_summary(
-                    server_id=36780, app_id=1234567, summary_type="bw"
+                    server_id=36780, app_id=3937401, summary_type="bw"
                 )
             assert "400" in str(exc_info.value)
 
@@ -777,7 +777,7 @@ class TestGetAppTrafficAnalytics:
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.get_app_traffic_analytics(
                 server_id=36780,
-                app_id=1234567,
+                app_id=3937401,
                 duration="1h",
                 resource="top_ips",
             )
@@ -790,7 +790,7 @@ class TestGetAppTrafficAnalytics:
         assert request.method == "GET"
         url = str(request.url)
         assert "server_id=36780" in url
-        assert "app_id=1234567" in url
+        assert "app_id=3937401" in url
         assert "duration=1h" in url
         assert "resource=top_ips" in url
 
@@ -805,7 +805,7 @@ class TestGetAppTrafficAnalytics:
             with pytest.raises(APIError) as exc_info:
                 await client.get_app_traffic_analytics(
                     server_id=36780,
-                    app_id=1234567,
+                    app_id=3937401,
                     duration="1h",
                     resource="top_ips",
                 )
@@ -825,7 +825,7 @@ class TestGetAppTrafficDetails:
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.get_app_traffic_details(
                 server_id=36780,
-                app_id=1234567,
+                app_id=3937401,
                 from_dt="01/03/2026 00:00",
                 until_dt="15/03/2026 23:59",
                 resource="top_ips",
@@ -857,7 +857,7 @@ class TestGetAppTrafficDetails:
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.get_app_traffic_details(
                 server_id=36780,
-                app_id=1234567,
+                app_id=3937401,
                 from_dt="01/03/2026 00:00",
                 until_dt="15/03/2026 23:59",
                 resource="top_ips",
@@ -879,7 +879,7 @@ class TestGetAppTrafficDetails:
             with pytest.raises(APIError) as exc_info:
                 await client.get_app_traffic_details(
                     server_id=36780,
-                    app_id=1234567,
+                    app_id=3937401,
                     from_dt="01/03/2026 00:00",
                     until_dt="15/03/2026 23:59",
                     resource="top_ips",
@@ -1201,7 +1201,7 @@ class TestGetAppPhpAnalytics:
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.get_app_php_analytics(
                 server_id=36780,
-                app_id=1234567,
+                app_id=3937401,
                 duration="1h",
                 resource="slow_pages",
             )
@@ -1214,7 +1214,7 @@ class TestGetAppPhpAnalytics:
         assert request.method == "GET"
         url = str(request.url)
         assert "server_id=36780" in url
-        assert "app_id=1234567" in url
+        assert "app_id=3937401" in url
         assert "duration=1h" in url
         assert "resource=slow_pages" in url
 
@@ -1229,7 +1229,7 @@ class TestGetAppPhpAnalytics:
             with pytest.raises(APIError) as exc_info:
                 await client.get_app_php_analytics(
                     server_id=36780,
-                    app_id=1234567,
+                    app_id=3937401,
                     duration="1h",
                     resource="slow_pages",
                 )
@@ -1249,7 +1249,7 @@ class TestGetAppMysqlAnalytics:
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.get_app_mysql_analytics(
                 server_id=36780,
-                app_id=1234567,
+                app_id=3937401,
                 duration="30m",
                 resource="slow_queries",
             )
@@ -1262,7 +1262,7 @@ class TestGetAppMysqlAnalytics:
         assert request.method == "GET"
         url = str(request.url)
         assert "server_id=36780" in url
-        assert "app_id=1234567" in url
+        assert "app_id=3937401" in url
         assert "duration=30m" in url
         assert "resource=slow_queries" in url
 
@@ -1277,7 +1277,7 @@ class TestGetAppMysqlAnalytics:
             with pytest.raises(APIError) as exc_info:
                 await client.get_app_mysql_analytics(
                     server_id=36780,
-                    app_id=1234567,
+                    app_id=3937401,
                     duration="30m",
                     resource="slow_queries",
                 )
@@ -1297,7 +1297,7 @@ class TestGetAppCronAnalytics:
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.get_app_cron_analytics(
                 server_id=36780,
-                app_id=1234567,
+                app_id=3937401,
             )
 
         assert isinstance(result, dict)
@@ -1323,7 +1323,7 @@ class TestGetAppCronAnalytics:
             with pytest.raises(APIError) as exc_info:
                 await client.get_app_cron_analytics(
                     server_id=36780,
-                    app_id=1234567,
+                    app_id=3937401,
                 )
             assert "400" in str(exc_info.value)
 

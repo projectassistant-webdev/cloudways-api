@@ -1,8 +1,8 @@
 accounts:
   primary:
-    email: user@example.com
+    email: anthonys@projectassistant.org
     api_key: ${CLOUDWAYS_API_KEY_PRIMARY}
 
   agency:
-    email: team@example.com
+    email: webdev@projectassistant.org
     api_key: ${CLOUDWAYS_API_KEY_AGENCY}

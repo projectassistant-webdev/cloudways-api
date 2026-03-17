@@ -277,6 +277,6 @@ class TestInitSharedCommand:
         # Check the robots call contains the domain, not the placeholder
         robots_calls = [
             str(call) for call in mock_ssh.call_args_list
-            if "wp.example.com" in str(call)
+            if "wp.projectassistant.org" in str(call)
         ]
         assert len(robots_calls) > 0

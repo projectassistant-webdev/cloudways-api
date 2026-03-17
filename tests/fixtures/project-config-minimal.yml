@@ -2,8 +2,8 @@ hosting:
   cloudways:
     account: primary
     server:
-      id: 999999
+      id: 1089270
     environments:
       production:
-        app_id: 1234567
-        domain: wp.example.com
+        app_id: 3937401
+        domain: wp.projectassistant.org

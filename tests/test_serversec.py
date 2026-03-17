@@ -233,13 +233,13 @@ class TestGetServerIncidents:
         async def _run():
             async with PatchedClient("test@example.com", "key") as client:
                 return await client.get_server_security_incidents(
-                    server_id=999999
+                    server_id=1089270
                 )
 
         result = asyncio.run(_run())
         assert isinstance(result, dict)
         url = str(captured[-1].url)
-        assert "/server/security/999999/incidents" in url
+        assert "/server/security/1089270/incidents" in url
         assert "server_id=" in url
 
     def test_error(self, set_env):
@@ -253,7 +253,7 @@ class TestGetServerIncidents:
                 _async_client_call(
                     PatchedClient,
                     "get_server_security_incidents",
-                    server_id=999999,
+                    server_id=1089270,
                 )
             )
 
@@ -270,13 +270,13 @@ class TestGetServerSecurityIps:
         async def _run():
             async with PatchedClient("test@example.com", "key") as client:
                 return await client.get_server_security_ips(
-                    server_id=999999
+                    server_id=1089270
                 )
 
         result = asyncio.run(_run())
         assert isinstance(result, dict)
         url = str(captured[-1].url)
-        assert "/server/security/999999/ips" in url
+        assert "/server/security/1089270/ips" in url
         assert "server_id=" in url
 
     def test_error(self, set_env):
@@ -290,7 +290,7 @@ class TestGetServerSecurityIps:
                 _async_client_call(
                     PatchedClient,
                     "get_server_security_ips",
-                    server_id=999999,
+                    server_id=1089270,
                 )
             )
 
@@ -307,7 +307,7 @@ class TestAddServerIp:
         async def _run():
             async with PatchedClient("test@example.com", "key") as client:
                 return await client.update_server_security_ips(
-                    server_id=999999, ip="1.2.3.4", mode="allow"
+                    server_id=1089270, ip="1.2.3.4", mode="allow"
                 )
 
         result = asyncio.run(_run())
@@ -315,7 +315,7 @@ class TestAddServerIp:
         req = captured[-1]
         assert req.method == "PUT"
         body = req.content.decode()
-        assert "server_id=999999" in body
+        assert "server_id=1089270" in body
         assert "iplist%5B%5D=1.2.3.4" in body  # iplist[] URL-encoded
         assert "mode=white" in body
         assert "ttl=0" in body
@@ -332,7 +332,7 @@ class TestAddServerIp:
                 _async_client_call(
                     PatchedClient,
                     "update_server_security_ips",
-                    server_id=999999,
+                    server_id=1089270,
                     ip="1.2.3.4",
                     mode="allow",
                 )
@@ -351,7 +351,7 @@ class TestRemoveServerIp:
         async def _run():
             async with PatchedClient("test@example.com", "key") as client:
                 return await client.delete_server_security_ips(
-                    server_id=999999, ip="1.2.3.4", mode="allow"
+                    server_id=1089270, ip="1.2.3.4", mode="allow"
                 )
 
         result = asyncio.run(_run())
@@ -359,7 +359,7 @@ class TestRemoveServerIp:
         req = captured[-1]
         assert req.method == "DELETE"
         body = req.content.decode()
-        assert "server_id=999999" in body
+        assert "server_id=1089270" in body
         assert "iplist%5B%5D=1.2.3.4" in body  # iplist[] URL-encoded
         assert "mode=white" in body
         assert "ttl" not in body
@@ -376,7 +376,7 @@ class TestRemoveServerIp:
                 _async_client_call(
                     PatchedClient,
                     "delete_server_security_ips",
-                    server_id=999999,
+                    server_id=1089270,
                     ip="1.2.3.4",
                     mode="allow",
                 )
@@ -469,7 +469,7 @@ def test_ip_add_allow_mode(set_env):
     parsed = parse_qs(body)
     assert parsed["mode"] == ["white"]
     assert parsed["iplist[]"] == ["1.2.3.4"]
-    assert parsed["server_id"] == ["999999"]
+    assert parsed["server_id"] == ["1089270"]
     assert parsed["ttl"] == ["0"]
     assert parsed["ttl_type"] == ["minutes"]
 
@@ -574,7 +574,7 @@ def test_ip_remove_success(set_env):
     assert req.method == "DELETE"
     body = req.content.decode()
     parsed = parse_qs(body)
-    assert parsed["server_id"] == ["999999"]
+    assert parsed["server_id"] == ["1089270"]
     assert parsed["iplist[]"] == ["1.2.3.4"]
     assert parsed["mode"] == ["white"]
     assert "ttl" not in parsed
@@ -622,7 +622,7 @@ class TestAddBlacklistCountry:
         async def _run():
             async with PatchedClient("test@example.com", "key") as client:
                 return await client.add_server_blacklist_countries(
-                    server_id=999999, country="cn"
+                    server_id=1089270, country="cn"
                 )
 
         result = asyncio.run(_run())
@@ -631,7 +631,7 @@ class TestAddBlacklistCountry:
         assert req.method == "PUT"
         body = req.content.decode()
         assert "countrylist%5B%5D=CN" in body  # countrylist[] URL-encoded, uppercased
-        assert "server_id=999999" in body
+        assert "server_id=1089270" in body
         assert "reason" not in body  # reason not provided
 
     def test_error(self, set_env):
@@ -645,7 +645,7 @@ class TestAddBlacklistCountry:
                 _async_client_call(
                     PatchedClient,
                     "add_server_blacklist_countries",
-                    server_id=999999,
+                    server_id=1089270,
                     country="cn",
                 )
             )
@@ -663,7 +663,7 @@ class TestRemoveBlacklistCountry:
         async def _run():
             async with PatchedClient("test@example.com", "key") as client:
                 return await client.remove_server_blacklist_countries(
-                    server_id=999999, country="cn"
+                    server_id=1089270, country="cn"
                 )
 
         result = asyncio.run(_run())
@@ -672,7 +672,7 @@ class TestRemoveBlacklistCountry:
         assert req.method == "DELETE"
         body = req.content.decode()
         assert "countrylist%5B%5D=CN" in body  # countrylist[] URL-encoded, uppercased
-        assert "server_id=999999" in body
+        assert "server_id=1089270" in body
 
     def test_error(self, set_env):
         """DELETE /server/security/{id}/blacklist-countries error raises APIError."""
@@ -687,7 +687,7 @@ class TestRemoveBlacklistCountry:
                 _async_client_call(
                     PatchedClient,
                     "remove_server_blacklist_countries",
-                    server_id=999999,
+                    server_id=1089270,
                     country="cn",
                 )
             )
@@ -719,7 +719,7 @@ def test_country_block_success(set_env):
     body = req.content.decode()
     parsed = parse_qs(body)
     assert parsed["countrylist[]"] == ["CN"]
-    assert parsed["server_id"] == ["999999"]
+    assert parsed["server_id"] == ["1089270"]
     assert "reason" not in parsed
 
 
@@ -791,7 +791,7 @@ def test_country_unblock_success(set_env):
     body = req.content.decode()
     parsed = parse_qs(body)
     assert parsed["countrylist[]"] == ["CN"]
-    assert parsed["server_id"] == ["999999"]
+    assert parsed["server_id"] == ["1089270"]
 
 
 def test_country_unblock_error(set_env):
@@ -828,7 +828,7 @@ class TestGetServerSecurityStats:
         async def _run():
             async with PatchedClient("test@example.com", "key") as client:
                 return await client.get_server_security_stats(
-                    server_id=999999,
+                    server_id=1089270,
                     data_types=["bandwidth", "requests"],
                     group_by="day",
                     start=1700000000,
@@ -855,7 +855,7 @@ class TestGetServerSecurityStats:
                 _async_client_call(
                     PatchedClient,
                     "get_server_security_stats",
-                    server_id=999999,
+                    server_id=1089270,
                     data_types=["bandwidth"],
                     group_by="day",
                     start=1700000000,
@@ -876,7 +876,7 @@ class TestGetInfectedDomains:
         async def _run():
             async with PatchedClient("test@example.com", "key") as client:
                 return await client.list_server_infected_domains(
-                    server_id=999999
+                    server_id=1089270
                 )
 
         result = asyncio.run(_run())
@@ -898,7 +898,7 @@ class TestGetInfectedDomains:
                 _async_client_call(
                     PatchedClient,
                     "list_server_infected_domains",
-                    server_id=999999,
+                    server_id=1089270,
                 )
             )
 
@@ -915,7 +915,7 @@ class TestSyncInfectedDomains:
         async def _run():
             async with PatchedClient("test@example.com", "key") as client:
                 return await client.sync_server_infected_domains(
-                    server_id=999999
+                    server_id=1089270
                 )
 
         result = asyncio.run(_run())
@@ -923,7 +923,7 @@ class TestSyncInfectedDomains:
         req = captured[-1]
         assert req.method == "POST"
         body = req.content.decode()
-        assert "server_id=999999" in body
+        assert "server_id=1089270" in body
 
     def test_error(self, set_env):
         """POST /server/security/{id}/infected-domains/sync 400 raises APIError."""
@@ -938,7 +938,7 @@ class TestSyncInfectedDomains:
                 _async_client_call(
                     PatchedClient,
                     "sync_server_infected_domains",
-                    server_id=999999,
+                    server_id=1089270,
                 )
             )
 
@@ -955,7 +955,7 @@ class TestGetFirewallSettings:
         async def _run():
             async with PatchedClient("test@example.com", "key") as client:
                 return await client.get_server_firewall_settings(
-                    server_id=999999
+                    server_id=1089270
                 )
 
         result = asyncio.run(_run())
@@ -974,7 +974,7 @@ class TestGetFirewallSettings:
                 _async_client_call(
                     PatchedClient,
                     "get_server_firewall_settings",
-                    server_id=999999,
+                    server_id=1089270,
                 )
             )
 
@@ -991,7 +991,7 @@ class TestUpdateFirewallSettings:
         async def _run():
             async with PatchedClient("test@example.com", "key") as client:
                 return await client.update_server_firewall_settings(
-                    server_id=999999,
+                    server_id=1089270,
                     request_limit=100,
                     weak_password=True,
                 )
@@ -1001,7 +1001,7 @@ class TestUpdateFirewallSettings:
         req = captured[-1]
         body = req.content.decode()
         parsed = parse_qs(body)
-        assert parsed["server_id"] == ["999999"]
+        assert parsed["server_id"] == ["1089270"]
         assert parsed["request_limit"] == ["100"]
         assert parsed["weak_password"] == ["1"]
 
@@ -1018,7 +1018,7 @@ class TestUpdateFirewallSettings:
                 _async_client_call(
                     PatchedClient,
                     "update_server_firewall_settings",
-                    server_id=999999,
+                    server_id=1089270,
                     request_limit=100,
                     weak_password=True,
                 )
@@ -1037,7 +1037,7 @@ class TestGetServerSecurityApps:
         async def _run():
             async with PatchedClient("test@example.com", "key") as client:
                 return await client.get_server_security_apps(
-                    server_id=999999
+                    server_id=1089270
                 )
 
         result = asyncio.run(_run())
@@ -1045,7 +1045,7 @@ class TestGetServerSecurityApps:
         url = str(captured[-1].url)
         assert "page=1" in url
         assert "page_limit=20" in url
-        assert "server_id=999999" in url
+        assert "server_id=1089270" in url
 
     def test_error(self, set_env):
         """GET /server/security/{id}/apps 400 raises APIError."""
@@ -1058,7 +1058,7 @@ class TestGetServerSecurityApps:
                 _async_client_call(
                     PatchedClient,
                     "get_server_security_apps",
-                    server_id=999999,
+                    server_id=1089270,
                 )
             )
 
@@ -1071,7 +1071,7 @@ class TestGetServerSecurityApps:
         async def _run():
             async with PatchedClient("test@example.com", "key") as client:
                 return await client.get_server_security_apps(
-                    server_id=999999, filter_by="infected"
+                    server_id=1089270, filter_by="infected"
                 )
 
         result = asyncio.run(_run())
@@ -1209,7 +1209,7 @@ def test_infected_domains_sync_success(set_env):
     assert req.method == "POST"
     body = req.content.decode()
     parsed = parse_qs(body)
-    assert parsed["server_id"] == ["999999"]
+    assert parsed["server_id"] == ["1089270"]
 
 
 def test_infected_domains_sync_error(set_env):
@@ -1293,7 +1293,7 @@ def test_firewall_update_full(set_env):
     req = captured[-1]
     body = req.content.decode()
     parsed = parse_qs(body)
-    assert parsed["server_id"] == ["999999"]
+    assert parsed["server_id"] == ["1089270"]
     assert parsed["request_limit"] == ["100"]
     assert parsed["weak_password"] == ["1"]
 
@@ -1322,7 +1322,7 @@ def test_firewall_update_partial(set_env):
     req = captured[-1]
     body = req.content.decode()
     parsed = parse_qs(body)
-    assert parsed["server_id"] == ["999999"]
+    assert parsed["server_id"] == ["1089270"]
     assert parsed["request_limit"] == ["50"]
     assert "weak_password" not in parsed
 
@@ -1350,7 +1350,7 @@ def test_firewall_update_no_weak_password(set_env):
     req = captured[-1]
     body = req.content.decode()
     parsed = parse_qs(body)
-    assert parsed["server_id"] == ["999999"]
+    assert parsed["server_id"] == ["1089270"]
     assert parsed["weak_password"] == ["0"]
     assert "request_limit" not in parsed
 
@@ -1374,7 +1374,7 @@ def test_firewall_update_no_flags(set_env):
     req = captured[-1]
     body = req.content.decode()
     parsed = parse_qs(body)
-    assert parsed["server_id"] == ["999999"]
+    assert parsed["server_id"] == ["1089270"]
     assert "request_limit" not in parsed
     assert "weak_password" not in parsed
 
@@ -1422,7 +1422,7 @@ def test_apps_success(set_env):
     url = str(captured[-1].url)
     assert "page=1" in url
     assert "page_limit=20" in url
-    assert "server_id=999999" in url
+    assert "server_id=1089270" in url
 
 
 def test_apps_with_filter_by(set_env):

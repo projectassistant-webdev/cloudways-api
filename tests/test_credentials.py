@@ -17,7 +17,7 @@ class TestCredentialLoading:
         creds = load_credentials(
             "primary", path=str(FIXTURES_DIR / "accounts.yml")
         )
-        assert creds["email"] == "user@example.com"
+        assert creds["email"] == "anthonys@projectassistant.org"
         assert creds["api_key"] == "plain_text_api_key_12345"
 
     def test_credentials_loads_different_account(self) -> None:
@@ -25,7 +25,7 @@ class TestCredentialLoading:
         creds = load_credentials(
             "agency", path=str(FIXTURES_DIR / "accounts.yml")
         )
-        assert creds["email"] == "team@example.com"
+        assert creds["email"] == "webdev@projectassistant.org"
         assert creds["api_key"] == "agency_api_key_67890"
 
     def test_credentials_resolves_env_var_reference(
@@ -73,7 +73,7 @@ class TestCredentialLoading:
             "primary", path=str(FIXTURES_DIR / "accounts.yml")
         )
         # Account file value should win over env var
-        assert creds["email"] == "user@example.com"
+        assert creds["email"] == "anthonys@projectassistant.org"
 
     def test_credentials_account_file_api_key_takes_priority_over_env(
         self, monkeypatch: pytest.MonkeyPatch
@@ -151,14 +151,14 @@ class TestCredentialLoading:
         fixture_path = str(FIXTURES_DIR / "accounts.yml")
         monkeypatch.setenv("CLOUDWAYS_ACCOUNTS_FILE", fixture_path)
         creds = load_credentials("primary")
-        assert creds["email"] == "user@example.com"
+        assert creds["email"] == "anthonys@projectassistant.org"
 
     def test_credentials_path_parameter_override(self) -> None:
         """load_credentials() accepts explicit path parameter."""
         creds = load_credentials(
             "primary", path=str(FIXTURES_DIR / "accounts.yml")
         )
-        assert creds["email"] == "user@example.com"
+        assert creds["email"] == "anthonys@projectassistant.org"
 
 
 class TestCredentialValidation:

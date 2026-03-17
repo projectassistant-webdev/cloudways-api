@@ -53,7 +53,7 @@ def valid_app_template() -> dict:
     return {
         "provision": {
             "type": "app",
-            "server_id": "999999",
+            "server_id": "1089270",
             "app_label": "my-app",
             "project_name": "Default",
         }

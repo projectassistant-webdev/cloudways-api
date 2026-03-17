@@ -269,14 +269,14 @@ class TestGetAppSecurityStatus:
         async def _run():
             async with PatchedClient("test@example.com", "key") as client:
                 return await client.get_app_security_status(
-                    app_id=1234567, server_id=999999
+                    app_id=3937401, server_id=1089270
                 )
 
         result = asyncio.run(_run())
         assert isinstance(result, dict)
         assert result["is_active"] is True
         url = str(captured[-1].url)
-        assert "/app/security/1234567/status" in url
+        assert "/app/security/3937401/status" in url
         assert "server_id=" in url
 
     def test_status_error(self, set_env):
@@ -290,8 +290,8 @@ class TestGetAppSecurityStatus:
                 _async_client_call(
                     PatchedClient,
                     "get_app_security_status",
-                    app_id=1234567,
-                    server_id=999999,
+                    app_id=3937401,
+                    server_id=1089270,
                 )
             )
 
@@ -308,8 +308,8 @@ class TestListSecurityScans:
         async def _run():
             async with PatchedClient("test@example.com", "key") as client:
                 return await client.list_security_scans(
-                    app_id=1234567,
-                    server_id=999999,
+                    app_id=3937401,
+                    server_id=1089270,
                     offset="5",
                     limit="10",
                 )
@@ -332,8 +332,8 @@ class TestListSecurityScans:
                 _async_client_call(
                     PatchedClient,
                     "list_security_scans",
-                    app_id=1234567,
-                    server_id=999999,
+                    app_id=3937401,
+                    server_id=1089270,
                 )
             )
 
@@ -350,7 +350,7 @@ class TestInitiateSecurityScan:
         async def _run():
             async with PatchedClient("test@example.com", "key") as client:
                 return await client.initiate_security_scan(
-                    app_id=1234567, server_id=999999
+                    app_id=3937401, server_id=1089270
                 )
 
         result = asyncio.run(_run())
@@ -420,8 +420,8 @@ class TestInitiateSecurityScan:
                 _async_client_call(
                     PatchedClient,
                     "initiate_security_scan",
-                    app_id=1234567,
-                    server_id=999999,
+                    app_id=3937401,
+                    server_id=1089270,
                 )
             )
 
@@ -510,7 +510,7 @@ class TestGetSecurityScanStatus:
         async def _run():
             async with PatchedClient("test@example.com", "key") as client:
                 return await client.get_security_scan_status(
-                    app_id=1234567, server_id=999999
+                    app_id=3937401, server_id=1089270
                 )
 
         result = asyncio.run(_run())
@@ -530,8 +530,8 @@ class TestGetSecurityScanStatus:
                 _async_client_call(
                     PatchedClient,
                     "get_security_scan_status",
-                    app_id=1234567,
-                    server_id=999999,
+                    app_id=3937401,
+                    server_id=1089270,
                 )
             )
 
@@ -548,7 +548,7 @@ class TestGetSecurityScanDetail:
         async def _run():
             async with PatchedClient("test@example.com", "key") as client:
                 return await client.get_security_scan_detail(
-                    app_id=1234567, scan_id=42, server_id=999999
+                    app_id=3937401, scan_id=42, server_id=1089270
                 )
 
         result = asyncio.run(_run())
@@ -568,9 +568,9 @@ class TestGetSecurityScanDetail:
                 _async_client_call(
                     PatchedClient,
                     "get_security_scan_detail",
-                    app_id=1234567,
+                    app_id=3937401,
                     scan_id=9999,
-                    server_id=999999,
+                    server_id=1089270,
                 )
             )
 
@@ -587,7 +587,7 @@ class TestGetSecurityEvents:
         async def _run():
             async with PatchedClient("test@example.com", "key") as client:
                 return await client.get_security_events(
-                    app_id=1234567, server_id=999999
+                    app_id=3937401, server_id=1089270
                 )
 
         result = asyncio.run(_run())
@@ -607,8 +607,8 @@ class TestGetSecurityEvents:
                 _async_client_call(
                     PatchedClient,
                     "get_security_events",
-                    app_id=1234567,
-                    server_id=999999,
+                    app_id=3937401,
+                    server_id=1089270,
                 )
             )
 
@@ -625,7 +625,7 @@ class TestGetSecurityIncidents:
         async def _run():
             async with PatchedClient("test@example.com", "key") as client:
                 return await client.get_security_incidents(
-                    app_id=1234567, server_id=999999
+                    app_id=3937401, server_id=1089270
                 )
 
         result = asyncio.run(_run())
@@ -645,8 +645,8 @@ class TestGetSecurityIncidents:
                 _async_client_call(
                     PatchedClient,
                     "get_security_incidents",
-                    app_id=1234567,
-                    server_id=999999,
+                    app_id=3937401,
+                    server_id=1089270,
                 )
             )
 
@@ -678,8 +678,8 @@ class TestListSecurityFiles:
         async def _run():
             async with PatchedClient("test@example.com", "key") as client:
                 return await client.list_security_files(
-                    app_id=1234567,
-                    server_id=999999,
+                    app_id=3937401,
+                    server_id=1089270,
                     offset="5",
                     limit="10",
                 )
@@ -687,7 +687,7 @@ class TestListSecurityFiles:
         result = asyncio.run(_run())
         assert isinstance(result, dict)
         url = str(captured[-1].url)
-        assert "/app/security/1234567/files" in url
+        assert "/app/security/3937401/files" in url
         assert "server_id=" in url
         assert "offset=" in url
         assert "limit=" in url
@@ -703,8 +703,8 @@ class TestListSecurityFiles:
                 _async_client_call(
                     PatchedClient,
                     "list_security_files",
-                    app_id=1234567,
-                    server_id=999999,
+                    app_id=3937401,
+                    server_id=1089270,
                 )
             )
 
@@ -737,8 +737,8 @@ class TestRestoreSecurityFiles:
 
         assert result.exit_code == 0
         body = captured[-1].content.decode()
-        assert "server_id=999999" in body
-        assert "app_id=1234567" in body
+        assert "server_id=1089270" in body
+        assert "app_id=3937401" in body
         assert "db=" in body
         assert "files=" in body
 
@@ -753,8 +753,8 @@ class TestRestoreSecurityFiles:
                 _async_client_call(
                     PatchedClient,
                     "restore_security_files",
-                    app_id=1234567,
-                    server_id=999999,
+                    app_id=3937401,
+                    server_id=1089270,
                     db="mydb",
                     files="wp-config.php",
                 )
@@ -778,7 +778,7 @@ class TestGetCleanedDiff:
         async def _run():
             async with PatchedClient("test@example.com", "key") as client:
                 return await client.get_cleaned_diff(
-                    app_id=1234567, server_id=999999
+                    app_id=3937401, server_id=1089270
                 )
 
         result = asyncio.run(_run())
@@ -799,8 +799,8 @@ class TestGetCleanedDiff:
                 _async_client_call(
                     PatchedClient,
                     "get_cleaned_diff",
-                    app_id=1234567,
-                    server_id=999999,
+                    app_id=3937401,
+                    server_id=1089270,
                 )
             )
 
@@ -830,8 +830,8 @@ class TestActivateSecuritySuite:
 
         assert result.exit_code == 0
         body = captured[-1].content.decode()
-        assert "server_id=999999" in body
-        assert "app_id=1234567" in body
+        assert "server_id=1089270" in body
+        assert "app_id=3937401" in body
         assert "mp_offer_availed=" in body
 
     def test_activate_error(self, set_env):
@@ -845,8 +845,8 @@ class TestActivateSecuritySuite:
                 _async_client_call(
                     PatchedClient,
                     "activate_security_suite",
-                    app_id=1234567,
-                    server_id=999999,
+                    app_id=3937401,
+                    server_id=1089270,
                 )
             )
 
@@ -878,8 +878,8 @@ class TestDeactivateSecuritySuite:
         assert result.exit_code == 0
         assert captured[-1].method == "PATCH"
         body = captured[-1].content.decode()
-        assert "server_id=999999" in body
-        assert "app_id=1234567" in body
+        assert "server_id=1089270" in body
+        assert "app_id=3937401" in body
         assert "app_name=" in body
         assert "feedback_text=" not in body  # not included when not provided
 
@@ -922,8 +922,8 @@ class TestDeactivateSecuritySuite:
                 _async_client_call(
                     PatchedClient,
                     "deactivate_security_suite",
-                    app_id=1234567,
-                    server_id=999999,
+                    app_id=3937401,
+                    server_id=1089270,
                     app_name="myapp",
                 )
             )
@@ -978,8 +978,8 @@ class TestAddSecurityIp:
                 _async_client_call(
                     PatchedClient,
                     "add_security_ip",
-                    app_id=1234567,
-                    server_id=999999,
+                    app_id=3937401,
+                    server_id=1089270,
                     ip="1.2.3.4",
                     mode="block",
                     ttl=0,
@@ -1035,8 +1035,8 @@ class TestRemoveSecurityIp:
                 _async_client_call(
                     PatchedClient,
                     "remove_security_ip",
-                    app_id=1234567,
-                    server_id=999999,
+                    app_id=3937401,
+                    server_id=1089270,
                     ip="1.2.3.4",
                     mode="block",
                     ttl=0,

@@ -16,7 +16,7 @@ class TestConfigLoading:
         """Happy path: load a valid project-config.yml and get hosting.cloudways."""
         config = load_config(path=str(FIXTURES_DIR / "project-config.yml"))
         assert config["account"] == "primary"
-        assert config["server"]["id"] == 999999
+        assert config["server"]["id"] == 1089270
         assert "production" in config["environments"]
         assert "staging" in config["environments"]
 
@@ -24,8 +24,8 @@ class TestConfigLoading:
         """Minimal config with only required fields loads successfully."""
         config = load_config(path=str(FIXTURES_DIR / "project-config-minimal.yml"))
         assert config["account"] == "primary"
-        assert config["server"]["id"] == 999999
-        assert config["environments"]["production"]["app_id"] == 1234567
+        assert config["server"]["id"] == 1089270
+        assert config["environments"]["production"]["app_id"] == 3937401
 
     def test_config_missing_file_raises_config_error(self, tmp_path: Path) -> None:
         """Missing config file raises ConfigError with helpful message."""
@@ -88,11 +88,11 @@ class TestConfigLoading:
     def test_config_returns_full_cloudways_section(self) -> None:
         """Config returns the full hosting.cloudways section with all fields."""
         config = load_config(path=str(FIXTURES_DIR / "project-config.yml"))
-        assert config["server"]["label"] == "example-prod"
+        assert config["server"]["label"] == "projectassistant-prod"
         assert config["server"]["provider"] == "do"
         assert config["server"]["region"] == "nyc3"
-        assert config["environments"]["production"]["domain"] == "wp.example.com"
-        assert config["environments"]["staging"]["app_id"] == 7654321
+        assert config["environments"]["production"]["domain"] == "wp.projectassistant.org"
+        assert config["environments"]["staging"]["app_id"] == 5021818
 
 
 class TestConfigPhase1Validation:
@@ -228,4 +228,4 @@ class TestConfigPhase1Validation:
         """Minimal valid config passes Phase 1 validation."""
         config = load_config(path=str(FIXTURES_DIR / "project-config-minimal.yml"))
         assert config["account"] == "primary"
-        assert config["server"]["id"] == 999999
+        assert config["server"]["id"] == 1089270

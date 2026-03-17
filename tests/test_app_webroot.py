@@ -38,19 +38,19 @@ def _make_server_response(webroot: str = "public_html") -> dict:
     return {
         "servers": [
             {
-                "id": "999999",
-                "label": "example-prod",
+                "id": "1089270",
+                "label": "projectassistant-prod",
                 "status": "running",
-                "public_ip": "1.2.3.4",
+                "public_ip": "159.223.142.14",
                 "apps": [
                     {
-                        "id": "1234567",
+                        "id": "3937401",
                         "label": "production-app",
                         "application": "wordpress",
                         "webroot": webroot,
                     },
                     {
-                        "id": "7654321",
+                        "id": "5021818",
                         "label": "staging-app",
                         "application": "wordpress",
                         "webroot": "public_html",
@@ -118,8 +118,8 @@ class TestUpdateWebroot:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.update_webroot(
-                server_id=999999,
-                app_id=1234567,
+                server_id=1089270,
+                app_id=3937401,
                 webroot="public_html/current/web",
             )
 
@@ -132,8 +132,8 @@ class TestUpdateWebroot:
         assert len(post_reqs) == 1
         # Verify payload
         body = post_reqs[0].content.decode()
-        assert "server_id=999999" in body
-        assert "app_id=1234567" in body
+        assert "server_id=1089270" in body
+        assert "app_id=3937401" in body
         assert "webroot=public_html%2Fcurrent%2Fweb" in body
 
     @pytest.mark.asyncio
@@ -153,8 +153,8 @@ class TestUpdateWebroot:
         async with PatchedClient("test@example.com", "key") as client:
             with pytest.raises(APIError):
                 await client.update_webroot(
-                    server_id=999999,
-                    app_id=1234567,
+                    server_id=1089270,
+                    app_id=3937401,
                     webroot="public_html/current/web",
                 )
 
@@ -174,8 +174,8 @@ class TestUpdateWebroot:
 
         async with PatchedClient("test@example.com", "key") as client:
             result = await client.update_webroot(
-                server_id=999999,
-                app_id=1234567,
+                server_id=1089270,
+                app_id=3937401,
                 webroot="public_html/current/web",
             )
 

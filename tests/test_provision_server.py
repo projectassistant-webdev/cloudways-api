@@ -935,7 +935,7 @@ class TestProvisionServerTemplate:
         tpl.write_text(
             "provision:\n"
             "  type: app\n"
-            "  server_id: 999999\n"
+            "  server_id: 1089270\n"
             "  app_label: my-app\n"
         )
 

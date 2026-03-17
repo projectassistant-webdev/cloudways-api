@@ -27,19 +27,19 @@ ACCOUNTS_PATH = os.path.join(FIXTURES_DIR, "accounts.yml")
 MOCK_SERVERS_RESPONSE = {
     "servers": [
         {
-            "id": "999999",
+            "id": "1089270",
             "label": "test-server",
             "apps": [
                 {
-                    "id": "1234567",
+                    "id": "3937401",
                     "mysql_db_name": "bxnttnxxsm",
                     "mysql_user": "bxnttnxxsm",
                     "mysql_password": "JtmNk7DP3c",
-                    "cname": "wp.example.com",
+                    "cname": "wp.projectassistant.org",
                     "app_fqdn": "wordpress-123-456.cloudwaysapps.com",
                 },
                 {
-                    "id": "7654321",
+                    "id": "5021818",
                     "mysql_db_name": "stgdb",
                     "mysql_user": "stguser",
                     "mysql_password": "stgpass",
@@ -55,8 +55,8 @@ MOCK_CF_ENABLED_RESPONSE = {
     "status": True,
     "dns": [
         {
-            "app_id": "1234567",
-            "hostname": "wp.example.com",
+            "app_id": "3937401",
+            "hostname": "wp.projectassistant.org",
             "hostname_id": "342a8843-d86e-4005-adcb-3gc469e45f69",
             "status": "verified",
         }
@@ -213,8 +213,8 @@ class TestFindServer:
         from cloudways_api.commands.env_generate import _find_server
 
         servers = MOCK_SERVERS_RESPONSE["servers"]
-        server = _find_server(servers, "999999")
-        assert server["id"] == "999999"
+        server = _find_server(servers, "1089270")
+        assert server["id"] == "1089270"
 
     def test_find_server_by_id_not_found(self) -> None:
         """AC-9.4: Raises ConfigError when server.id not in API response."""
@@ -233,8 +233,8 @@ class TestFindAppInServer:
         from cloudways_api.commands.env_generate import _find_app_in_server
 
         server = MOCK_SERVERS_RESPONSE["servers"][0]
-        app_data = _find_app_in_server(server, "1234567")
-        assert app_data["id"] == "1234567"
+        app_data = _find_app_in_server(server, "3937401")
+        assert app_data["id"] == "3937401"
         assert app_data["mysql_db_name"] == "bxnttnxxsm"
 
     def test_find_app_by_id_not_found(self) -> None:
@@ -250,8 +250,8 @@ class TestFindAppInServer:
         from cloudways_api.commands.env_generate import _find_app_in_server
 
         server = MOCK_SERVERS_RESPONSE["servers"][0]
-        app_data = _find_app_in_server(server, 1234567)
-        assert app_data["id"] == "1234567"
+        app_data = _find_app_in_server(server, 3937401)
+        assert app_data["id"] == "3937401"
 
 
 # --- Domain selection tests ---
@@ -266,7 +266,7 @@ class TestDomainSelection:
         cname = app_data.get("cname", "").strip()
         app_fqdn = app_data.get("app_fqdn", "").strip()
         wp_home = cname if cname else app_fqdn
-        assert wp_home == "wp.example.com"
+        assert wp_home == "wp.projectassistant.org"
 
     def test_domain_uses_fqdn_when_no_cname(self) -> None:
         """AC-9.6: WP_HOME falls back to app_fqdn when cname empty."""
@@ -295,21 +295,21 @@ class TestExtractCfHostnameId:
         """AC-10.1: Extracts hostname_id from valid CF response."""
         from cloudways_api.commands.env_generate import _extract_cf_hostname_id
 
-        result = _extract_cf_hostname_id(MOCK_CF_ENABLED_RESPONSE, "1234567")
+        result = _extract_cf_hostname_id(MOCK_CF_ENABLED_RESPONSE, "3937401")
         assert result == "342a8843-d86e-4005-adcb-3gc469e45f69"
 
     def test_cf_disabled_returns_none(self) -> None:
         """AC-10.2: Returns None when CF status is false."""
         from cloudways_api.commands.env_generate import _extract_cf_hostname_id
 
-        result = _extract_cf_hostname_id(MOCK_CF_DISABLED_RESPONSE, "1234567")
+        result = _extract_cf_hostname_id(MOCK_CF_DISABLED_RESPONSE, "3937401")
         assert result is None
 
     def test_cf_empty_dns_returns_none(self) -> None:
         """AC-10.3: Returns None when dns array is empty."""
         from cloudways_api.commands.env_generate import _extract_cf_hostname_id
 
-        result = _extract_cf_hostname_id(MOCK_CF_EMPTY_DNS_RESPONSE, "1234567")
+        result = _extract_cf_hostname_id(MOCK_CF_EMPTY_DNS_RESPONSE, "3937401")
         assert result is None
 
     def test_cf_no_matching_app_id_returns_none(self) -> None:
@@ -323,7 +323,7 @@ class TestExtractCfHostnameId:
         """Returns None when response has no status key."""
         from cloudways_api.commands.env_generate import _extract_cf_hostname_id
 
-        result = _extract_cf_hostname_id({}, "1234567")
+        result = _extract_cf_hostname_id({}, "3937401")
         assert result is None
 
 
@@ -350,15 +350,15 @@ class TestGetCloudflareCdn:
         PatchedClient = make_patched_client_class(transport)
 
         async with PatchedClient("test@example.com", "api_key") as client:
-            await client.get_cloudflare_cdn(999999, 1234567)
+            await client.get_cloudflare_cdn(1089270, 3937401)
 
         cf_request = [
             r for r in captured_requests if "/app/cloudflareCdn" in str(r.url)
         ]
         assert len(cf_request) == 1
         url = str(cf_request[0].url)
-        assert "server_id=999999" in url
-        assert "app_id=1234567" in url
+        assert "server_id=1089270" in url
+        assert "app_id=3937401" in url
 
     @pytest.mark.asyncio
     async def test_get_cloudflare_cdn_returns_response(self) -> None:
@@ -375,7 +375,7 @@ class TestGetCloudflareCdn:
         PatchedClient = make_patched_client_class(transport)
 
         async with PatchedClient("test@example.com", "api_key") as client:
-            result = await client.get_cloudflare_cdn(999999, 1234567)
+            result = await client.get_cloudflare_cdn(1089270, 3937401)
 
         assert result["status"] is True
         assert len(result["dns"]) == 1
@@ -641,7 +641,7 @@ class TestEnvGenerateCommand:
         config_file = tmp_path / "config.yml"
         config_file.write_text(
             "hosting:\n  cloudways:\n    account: primary\n"
-            "    server:\n      id: 999999\n"
+            "    server:\n      id: 1089270\n"
             "      ssh_user: master\n      ssh_host: 1.2.3.4\n"
             "    environments:\n"
             "      production:\n"
@@ -714,7 +714,7 @@ class TestEnvGenerateCommand:
 
         assert result.exit_code == 0, result.output
         assert "production" in result.output
-        assert "wp.example.com" in result.output
+        assert "wp.projectassistant.org" in result.output
         assert "public_html/shared/.env" in result.output
 
     def test_stdout_skips_ssh_validation(self, tmp_path, monkeypatch) -> None:
@@ -722,10 +722,10 @@ class TestEnvGenerateCommand:
         config_file = tmp_path / "config.yml"
         config_file.write_text(
             "hosting:\n  cloudways:\n    account: primary\n"
-            "    server:\n      id: 999999\n"
+            "    server:\n      id: 1089270\n"
             "    environments:\n"
             "      production:\n"
-            "        app_id: 1234567\n"
+            "        app_id: 3937401\n"
             "        domain: example.com\n"
         )
         handler = _make_api_handler()
@@ -748,10 +748,10 @@ class TestEnvGenerateCommand:
         config_file = tmp_path / "config.yml"
         config_file.write_text(
             "hosting:\n  cloudways:\n    account: primary\n"
-            "    server:\n      id: 999999\n"
+            "    server:\n      id: 1089270\n"
             "    environments:\n"
             "      production:\n"
-            "        app_id: 1234567\n"
+            "        app_id: 3937401\n"
             "        domain: example.com\n"
         )
         handler = _make_api_handler()
@@ -799,7 +799,7 @@ class TestEnvGenerateCommand:
             "      ssh_user: master\n      ssh_host: 1.2.3.4\n"
             "    environments:\n"
             "      production:\n"
-            "        app_id: 1234567\n"
+            "        app_id: 3937401\n"
             "        domain: example.com\n"
         )
         handler = _make_api_handler()

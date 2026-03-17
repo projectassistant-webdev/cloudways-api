@@ -14,7 +14,7 @@ runner = CliRunner()
 
 # Pre-built credentials dict returned by detect_remote_db_credentials mock.
 _FAKE_DB_CREDS = {
-    "db_name": "wp_example",
+    "db_name": "wp_projectassistant",
     "db_user": "root",
     "db_password": "secret",
     "db_host": "localhost",
@@ -723,7 +723,7 @@ class TestDBPullEdgeCases:
             assert result.exit_code == 0
             mock_replacer_fn.assert_called_once()
             call_kwargs = mock_replacer_fn.call_args[1]
-            assert call_kwargs["source_domain"] == "wp.example.com"
+            assert call_kwargs["source_domain"] == "wp.projectassistant.org"
             assert call_kwargs["target_domain"] == "localhost"
 
     def test_db_pull_file_mode_sftp_failure_shows_error(

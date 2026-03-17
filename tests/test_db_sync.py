@@ -32,7 +32,7 @@ def _mock_db_sync_success():
             "cloudways_api.commands.db_sync.run_ssh_command",
             new_callable=AsyncMock,
             return_value=(
-                "define('DB_NAME', 'wp_example');",
+                "define('DB_NAME', 'wp_projectassistant');",
                 "",
                 0,
             ),
@@ -223,10 +223,10 @@ class TestDBSyncURLReplacement:
             assert result.exit_code == 0
             if mocks["mock_replacer"].called:
                 call_kwargs = mocks["mock_replacer"].call_args[1]
-                assert call_kwargs.get("source_domain") == "wp.example.com"
+                assert call_kwargs.get("source_domain") == "wp.projectassistant.org"
                 assert (
                     call_kwargs.get("target_domain")
-                    == "staging.wp.example.com"
+                    == "staging.wp.projectassistant.org"
                 )
 
 
@@ -338,7 +338,7 @@ class TestDBSyncErrors:
                 "cloudways_api.commands.db_sync.run_ssh_command",
                 new_callable=AsyncMock,
                 return_value=(
-                    "define('DB_NAME', 'wp_example');",
+                    "define('DB_NAME', 'wp_projectassistant');",
                     "",
                     0,
                 ),
@@ -369,9 +369,9 @@ class TestDBSyncErrors:
                 new_callable=AsyncMock,
                 side_effect=[
                     # DB name detection for source
-                    ("define('DB_NAME', 'wp_example');", "", 0),
+                    ("define('DB_NAME', 'wp_projectassistant');", "", 0),
                     # DB name detection for target
-                    ("define('DB_NAME', 'wp_example');", "", 0),
+                    ("define('DB_NAME', 'wp_projectassistant');", "", 0),
                     # Backup
                     ("", "", 0),
                     # Backup verify

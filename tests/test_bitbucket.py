@@ -403,7 +403,7 @@ class TestDetectBitbucketRepo:
         config = git_dir / "config"
         config.write_text(
             '[remote "origin"]\n'
-            "\turl = git@bitbucket.org:myworkspace/my-project.git\n"
+            "\turl = git@bitbucket.org:projectassistant/my-project.git\n"
             "\tfetch = +refs/heads/*:refs/remotes/origin/*\n"
         )
 
@@ -417,7 +417,7 @@ class TestDetectBitbucketRepo:
 
             workspace, repo_slug = detect_bitbucket_repo()
 
-        assert workspace == "myworkspace"
+        assert workspace == "projectassistant"
         assert repo_slug == "my-project"
 
     def test_detect_https_url(self, tmp_path) -> None:
@@ -427,7 +427,7 @@ class TestDetectBitbucketRepo:
         config = git_dir / "config"
         config.write_text(
             '[remote "origin"]\n'
-            "\turl = https://bitbucket.org/myworkspace/my-project\n"
+            "\turl = https://bitbucket.org/projectassistant/my-project\n"
             "\tfetch = +refs/heads/*:refs/remotes/origin/*\n"
         )
 
@@ -440,7 +440,7 @@ class TestDetectBitbucketRepo:
 
             workspace, repo_slug = detect_bitbucket_repo()
 
-        assert workspace == "myworkspace"
+        assert workspace == "projectassistant"
         assert repo_slug == "my-project"
 
     def test_detect_https_url_with_git_suffix(self, tmp_path) -> None:
@@ -450,7 +450,7 @@ class TestDetectBitbucketRepo:
         config = git_dir / "config"
         config.write_text(
             '[remote "origin"]\n'
-            "\turl = https://user@bitbucket.org/myworkspace/my-project.git\n"
+            "\turl = https://user@bitbucket.org/projectassistant/my-project.git\n"
         )
 
         from cloudways_api.bitbucket import detect_bitbucket_repo
@@ -462,7 +462,7 @@ class TestDetectBitbucketRepo:
 
             workspace, repo_slug = detect_bitbucket_repo()
 
-        assert workspace == "myworkspace"
+        assert workspace == "projectassistant"
         assert repo_slug == "my-project"
 
     def test_detect_no_git_remote(self) -> None:

@@ -38,7 +38,7 @@ def _mock_db_push_success():
             "cloudways_api.commands.db_push.run_ssh_command",
             new_callable=AsyncMock,
             return_value=(
-                "define('DB_NAME', 'wp_example');",
+                "define('DB_NAME', 'wp_projectassistant');",
                 "",
                 0,
             ),
@@ -121,7 +121,7 @@ class TestDBPushStreamMode:
             args = call_kwargs[1] if call_kwargs[1] else {}
             pos_args = call_kwargs[0] if call_kwargs[0] else ()
             all_args = str(pos_args) + str(args)
-            assert "1.2.3.4" in all_args or len(pos_args) >= 2
+            assert "159.223.142.14" in all_args or len(pos_args) >= 2
 
 
 class TestDBPushFileMode:
@@ -333,7 +333,7 @@ class TestDBPushAutoBackup:
             call_count += 1
             # First call: wp-config detection
             if call_count == 1:
-                return ("define('DB_NAME', 'wp_example');", "", 0)
+                return ("define('DB_NAME', 'wp_projectassistant');", "", 0)
             # Second call: backup command - fail
             if call_count == 2:
                 raise SSHError("Remote backup failed")
@@ -436,7 +436,7 @@ class TestDBPushURLReplacement:
                 "cloudways_api.commands.db_push.run_ssh_command",
                 new_callable=AsyncMock,
                 return_value=(
-                    "define('DB_NAME', 'wp_example');",
+                    "define('DB_NAME', 'wp_projectassistant');",
                     "",
                     0,
                 ),
@@ -513,7 +513,7 @@ class TestDBPushErrors:
                 "cloudways_api.commands.db_push.run_ssh_command",
                 new_callable=AsyncMock,
                 return_value=(
-                    "define('DB_NAME', 'wp_example');",
+                    "define('DB_NAME', 'wp_projectassistant');",
                     "",
                     0,
                 ),
@@ -696,7 +696,7 @@ class TestDBPushBackupVerification:
 
             # wp-config detection
             if "DB_NAME" in cmd:
-                return ("define('DB_NAME', 'wp_example');", "", 0)
+                return ("define('DB_NAME', 'wp_projectassistant');", "", 0)
             # backup command succeeds
             if "mysqldump" in cmd:
                 return ("", "", 0)
@@ -738,7 +738,7 @@ class TestDBPushBackupVerification:
             if "test -s" in cmd:
                 captured_kwargs.append(kwargs)
             if "DB_NAME" in cmd:
-                return ("define('DB_NAME', 'wp_example');", "", 0)
+                return ("define('DB_NAME', 'wp_projectassistant');", "", 0)
             return ("", "", 0)
 
         mock_subprocess_result = MagicMock()
@@ -796,7 +796,7 @@ class TestDBPushInvalidURLMethod:
                 "cloudways_api.commands.db_push.run_ssh_command",
                 new_callable=AsyncMock,
                 return_value=(
-                    "define('DB_NAME', 'wp_example');",
+                    "define('DB_NAME', 'wp_projectassistant');",
                     "",
                     0,
                 ),
@@ -857,7 +857,7 @@ class TestDBPushInvalidURLMethod:
                 "cloudways_api.commands.db_push.run_ssh_command",
                 new_callable=AsyncMock,
                 return_value=(
-                    "define('DB_NAME', 'wp_example');",
+                    "define('DB_NAME', 'wp_projectassistant');",
                     "",
                     0,
                 ),

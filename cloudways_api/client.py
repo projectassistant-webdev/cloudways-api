@@ -415,6 +415,38 @@ class CloudwaysClient:
             },
         )
 
+    async def manage_server_package(
+        self,
+        *,
+        server_id: int,
+        package_name: str,
+        package_version: str,
+    ) -> dict:
+        """Manage a server-level package (install, upgrade, or uninstall).
+
+        Use this to upgrade PHP, MySQL, Redis, Elasticsearch, or Supervisor
+        at the server level.  This is distinct from update_php_version(),
+        which configures per-application PHP-FPM settings.
+
+        Args:
+            server_id: Server ID.
+            package_name: Package to manage (e.g., "php", "mysql").
+            package_version: Version to install/upgrade to, "latest" to install
+                newest, or "0" to uninstall.
+
+        Returns:
+            API response dict, typically containing operation_id for polling.
+        """
+        return await self._api_request(
+            "POST",
+            "/server/manage/package",
+            data={
+                "server_id": server_id,
+                "package_name": package_name,
+                "package_version": package_version,
+            },
+        )
+
     async def add_domain(
         self,
         *,
@@ -919,7 +951,7 @@ class CloudwaysClient:
         return await self._api_request(
             "POST",
             "/security/lets_encrypt_install",
-            data={
+            json={
                 "server_id": server_id,
                 "app_id": app_id,
                 "ssl_email": ssl_email,
@@ -949,7 +981,7 @@ class CloudwaysClient:
         return await self._api_request(
             "POST",
             "/security/createDNS",
-            data={
+            json={
                 "server_id": server_id,
                 "app_id": app_id,
                 "ssl_email": ssl_email,
@@ -979,7 +1011,7 @@ class CloudwaysClient:
         return await self._api_request(
             "POST",
             "/security/verifyDNS",
-            data={
+            json={
                 "server_id": server_id,
                 "app_id": app_id,
                 "ssl_email": ssl_email,
@@ -3026,6 +3058,7 @@ class CloudwaysClient:
         *,
         params: dict | None = None,
         data: dict | None = None,
+        json: dict | None = None,
         _reauth_attempted: bool = False,
     ) -> dict:
         """Execute an authenticated API request with retry logic.
@@ -3040,6 +3073,8 @@ class CloudwaysClient:
             path: API path (relative to BASE_URL).
             params: Query parameters (for GET requests).
             data: Form-encoded body data (for POST/PUT requests).
+            json: JSON-encoded body data (for POST/PUT requests requiring
+                JSON body, e.g., SSL endpoints).
             _reauth_attempted: Internal flag to prevent infinite re-auth loops.
         """
         token = await self.authenticate()
@@ -3051,6 +3086,8 @@ class CloudwaysClient:
             request_kwargs["params"] = params
         if data is not None:
             request_kwargs["data"] = data
+        if json is not None:
+            request_kwargs["json"] = json
 
         for attempt in range(_MAX_RETRIES + 1):
             try:

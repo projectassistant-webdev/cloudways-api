@@ -453,7 +453,7 @@ class TestSetupProjectCommand:
         assert result.exit_code == 0
 
         # Extract server_id from fixture config (avoid hardcoding)
-        fixture_server_id = 999999
+        fixture_server_id = 1089270
 
         # Step 3: ssh-user create prod gets exact prod_app_id and server_id
         mock_ssh_user_prod.assert_awaited_once_with(

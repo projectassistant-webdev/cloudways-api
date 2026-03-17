@@ -182,7 +182,7 @@ def render_gemfile() -> str:
 
 
 def render_pipelines(
-    docker_image: str = "myworkspace/pipelines:3.0",
+    docker_image: str = "projectassistant/pipelines:3.0",
 ) -> str:
     """Render bitbucket-pipelines.yml with Docker image.
 
